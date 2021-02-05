@@ -2,13 +2,15 @@
 
 
 define('DEBUG', true);
-define('BASE_URL', "localhost/nesti3");
-define('PATH_CTRL', "app/controller");
-define('PATH_MODEL', "app/model");  
-define('PATH_TOOLS', "app/tools");
-define('PATH_VIEW', "app/view");
-define('PATH_CONFIG', "app/config");
+define('BASE_URL', "http://localhost/nesti3/");
+define('PATH_CTRL', "app/controler/");
+define('PATH_MODEL', "app/model/");  
+define('PATH_TOOLS', "app/tools/");
+define('PATH_VIEW', "app/view/");
+define('PATH_CONFIG', "app/config/");
+define('PATH_ENTITE', "app/entite/");
 
-define('PATH_CSS', "public/css");
-define('PATH_IMAGES', "public/images");
-define('PATH_JS', "public/js");
+define('PATH_CSS', BASE_URL . "public/css/");
+define('PATH_IMAGES', BASE_URL . "public/images/");
+define('PATH_JS', BASE_URL . "public/js/");
+define('PATH_ERROR', BASE_URL . "public/error/");
