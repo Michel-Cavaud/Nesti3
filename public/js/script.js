@@ -1,14 +1,26 @@
-var BASE_URL = "http://localhost/nesti3/";
+$(document).ready(function () {
+    var BASE_URL = "http://localhost/nesti3/";
 
-document.querySelectorAll(".btn").forEach((input) => input.addEventListener("click", actions));
+    //console.log(document.querySelectorAll(".btn"));
 
-function actions() {
-    var role = this.getAttribute("data-role");
-    var id = this.getAttribute("data-id");
-    console.log(BASE_URL + role);
-    if(role != ""){
-      document.location.href = BASE_URL + role;  
+    document
+        .querySelectorAll(".btn")
+        .forEach((input) => input.addEventListener("click", actions));
+
+    function actions() {
+        var role = this.getAttribute("data-role");
+        if (role != null) {
+            if (role == "supprimerModal") {
+                var id = this.getAttribute("data-id");
+                var btnSupp = document.querySelector("#btnSupp");
+                var idSupp = document.querySelector("#idSupp");
+
+                idSupp.textContent = "N° " + id;
+                btnSupp.setAttribute("data-role", "recettes/supprimer/" + id);
+                $("#modalSupp").modal("show");
+            } else {
+                document.location.href = BASE_URL + role;
+            }
+        }
     }
-    
-    
-}
+});

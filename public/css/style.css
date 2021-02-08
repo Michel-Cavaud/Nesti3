@@ -26,17 +26,18 @@ and open the template in the editor.
     --information: #4fb2be;
     --danger: #fb3938;
     --alerte: #fbc02e;
-    --disabled2: #b0d31c;
-
-    /* background-color: var(--main-bg-color);*/
+    --valid: #b0d41c;
 }
 
 body {
     font-family: "Nunito", sans-serif;
     padding-top: 80px;
 }
-
-
+h1,
+h2 {
+    font-weight: bold;
+    color: var(--primaryColor);
+}
 .btnnav {
     color: var(--classicColor4);
     background-color: var(--primaryColor);
@@ -46,14 +47,9 @@ body {
 .btnnavActif {
     color: var(--classicColor1);
     background-color: var(--secondaryColor);
-    
 }
 .navnesti {
     background-color: var(--primaryDarkColor);
-}
-h1 {
-    font-weight: bold;
-    color: var(--primaryColor);
 }
 
 .chemin {
@@ -67,30 +63,87 @@ h1 {
     color: var(--primaryLightColor);
 }
 
-.trTable{
+.trTable {
     color: var(--classicColor4);
     background-color: var(--primaryColor);
 }
 
-.inputRecherche{
+.inputRecherche {
     padding-left: 50px;
     border-color: var(--primaryLightColor);
     border-radius: 5px;
 }
-.input-icone{
-    position:relative;
-   
+.input-icone {
+    position: relative;
 }
-.input-icone i{
-    position:absolute;
-    left:0;
-    top:0px;
-    padding:9px 8px;
-    color : var(--primaryDarkColor)
+.input-icone i {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    padding: 9px 8px;
+    color: var(--primaryDarkColor);
 }
-.btnBlanc{
+.btnBlanc {
     border-color: var(--primaryLightColor);
     background-color: var(--classicColor4);
+}
+.basRecette {
+    background-color: var(--classicColor3);
+}
+input {
+    border-color: var(--primaryLightColor);
+}
+.btnValider {
+    background-color: var(--valid);
+    color: var(--primaryColor);
+    font-weight: bold;
+}
+.btnAnnuler {
+    background-color: var(--primaryLightColor);
+    color: var(--classicColor4);
+    font-weight: bold;
+}
+.btnOK {
+    background-color: var(--valid);
+    color: var(--classicColor4);
+    font-weight: bold;
+}
+.btnBas {
+    background-color: var(--alerte);
+}
+.btnCorbeille {
+    background-color: var(--danger);
+    color: var(--classicColor4);
+    font-weight: bold;
+}
+.preparation {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: var(--primaryLightColor);
+    resize: none;
+}
+.btnPlus {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: var(--primaryLightColor);
+    border-style: dashed;
+    width: 100%;
+    background-color: var(--classicColor4);
+}
+.modalCorps {
+    background-color: var(--disabled);
+}
+.modalTitre,
+.modalAvertissement {
+    background-color: var(--classicColor4);
+    font-weight: bold;
+}
+.modalAvertissement {
+    margin-left: 7rem !important;
+    margin-right: 7rem !important;
+}
+.fa-exclamation-triangle {
+    color: var(--danger);
 }
 
 /*login css*/
@@ -102,7 +155,7 @@ h1 {
     background-size: cover;
 }
 .divlogin {
-    background-color: #ffffff;
+    background-color: var(--classicColor4);
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.3);
     color: var(--primaryColor);
 }
@@ -110,7 +163,7 @@ h1 {
     background-color: var(--information);
 }
 .disabled {
-    background-color: var(--disabled2);
+    background-color: var(--valid);
     width: 100%;
     height: 70px;
 }

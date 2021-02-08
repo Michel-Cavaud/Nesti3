@@ -1,7 +1,5 @@
 <?php
 
-include_once PATH_ENTITE . 'Recettes.php';
-include_once PATH_MODEL . 'RecetteModel.php';
 $modelRecette = new RecetteModel();
 
 if($action == ""){
@@ -11,12 +9,14 @@ if($action == ""){
         case 'ajout':
             $data = ajout($data);
             break;
-
+        case 'supprimer':
+            $data = supprimer($data, $modelRecette);
+            break;
         default:
             break;
     }   
 }
-$data['btnNavActif'] = "btnnavActif";
+$data['btnNavActifRecettes'] = "btnnavActif";
 
 
 
@@ -35,5 +35,14 @@ function ajout($data){
     $data['chemin'] = "Recettes";
     $data['cheminRole'] = "recettes";
     $data['chemin2'] = "> Recette";
+    return $data;
+}
+
+function supprimer($data, $modelRecette){
+    $data['chemin'] = "Recettes";
+    $data['cheminRole'] = "recettes";
+    $data['chemin2'] = "> Recette";
+
+    $data['recettes'] = $modelRecette->readAll();
     return $data;
 }

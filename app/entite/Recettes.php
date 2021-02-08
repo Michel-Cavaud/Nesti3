@@ -16,27 +16,31 @@ class Recettes {
     private $nombrePersonne;
     private $etat;
     private $temps;
-    private Chef $chef;
-    private Image $image;
+    //private $idChef;
+    //private $idImages;
+    private $chef;
+    private $image;
     
     
-    function getChef(): Chef {
+    function getChef(){
         return $this->chef;
     }
 
-    function getImage(): Image {
+    function getImage(){
         return $this->image;
     }
 
-    function setChef(Chef $chef): void {
+    function setChef($chef): void {
         $this->chef = $chef;
     }
 
-    function setImage(Image $image): void {
+    function setImage($image): void {
         $this->image = $image;
     }
 
-        function getId() {
+
+
+    function getId() {
         return $this->id;
     }
 
@@ -61,7 +65,8 @@ class Recettes {
     }
 
     function getTemps() {
-        return $this->temps;
+       
+        return Fonctions::formatTemps($this->temps);
     }
 
 

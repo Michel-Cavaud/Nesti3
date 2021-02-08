@@ -7,14 +7,9 @@
  *
  * @author michel
  */
-class Admin {
-   private $id;
-   
-    public function __construct($row) {
-        
-        $this->id = $row['id_utilisateurs'];
-        
-    }
+class Admin  extends Utilisateurs {
+    
+    private $id;
     
     function getId() {
         return $this->id;

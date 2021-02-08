@@ -5,7 +5,7 @@
  *
  * @author michel
  */
-    class Utilisateur{
+    class Utilisateurs{
         private $id;
         private $pseudo;
         private $email;
@@ -18,20 +18,6 @@
         private $adresse2;
         private $idVille;
         
-
-        public function __construct($row) {
-            $this->id = $row['id_utilisateurs'];
-            $this->pseudo = strip_tags($row['pseudo_utilisateurs']);
-            $this->email = strip_tags($row['email_utilisateurs']);
-            $this->nom= strip_tags($row['nom_utilisateurs']);
-            $this->prenom = strip_tags($row['prenom_utilisateurs']);
-            $this->mdp = $row['mdl_utilisateurs'];
-            $this->etat = $row['etat_utilisateurs'];
-            $this->dateCreation = $row['date_creation_utilisateurs'];
-            $this->adresse1 = $row['adresse_1_utilisateurs']; 
-            $this->adresse2 = $row['adresse_2_utilisateurs']; 
-            $this->idVille = $row['id_ville'];
-        }
 
         function getId() {
             return $this->id;

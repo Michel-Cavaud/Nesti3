@@ -1,4 +1,28 @@
 
+<!-- Modal -->
+<div class="modal fade" id="modalSupp" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modalCorps m-5 text-center">
+            <div class="modalTitre mt-5 mb-4">
+                <div class="my-5">
+                    <i class="fas fa-exclamation-triangle fa-2x mx-2"></i>
+                    <span>Voulez vous vraiment supprimer l'élément : </span><span id="idSupp"></span>
+                </div>
+            </div>
+            <div>
+                <div class="modalAvertissement mt-3 py-5 rounded">Cette action est irréversible !</div>
+                
+            </div>
+            <div class="modalBoutons my-5 text-right" >
+                <button type="button" id="btnSupp" data-role=""  class="btn btn-lg btnValider mr-5">Confirmer</button>
+                <button type="button" class="btn btn-lg btnCorbeille mr-5" data-dismiss="modal">Annuler</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <section>
     <div class="container-fluid">
         <div class="row d-flex justify-content-center m-0">
@@ -58,12 +82,12 @@
                             <td><?=$value->getDifficulte()?></td>
                             <td><?=$value->getNombrePersonne()?></td>
                             <td><?=$value->getTemps()?></td>
-                            <td>Zanoni</td>
+                            <td><?=$value->getChef()->getNom() ?></td>
                             <td>
                                 
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/edition/<?=$value->getId() ?>">Modifier</button></br>
                                 
-                                    <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/supprimer/<?=$value->getId() ?>">Supprimer</button>
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->getId() ?>">Supprimer</button>
                                
                                 
                             </td>

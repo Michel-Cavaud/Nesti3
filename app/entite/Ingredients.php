@@ -7,7 +7,7 @@
  *
  * @author michel
  */
-class Ingredients {
+class Ingredients extends Produits{
    private $id;
    
     public function __construct($row) {

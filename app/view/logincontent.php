@@ -28,21 +28,22 @@
                             <div class="form-group">
                                 <label class="col-form-label ml-5" for="identifiant">Identifiant</label>
                                 <div class="input-group">
-
                                     <span class="fas fa-2x fa-user  mr-2"></span>
-
-                                    <input type="email" class="form-control" placeholder="Identifiant" id="identifiant" name="identifiant">
+                                    <input type="text" class="form-control <?= $isValidI ?>" placeholder="Identifiant" id="identifiant" name="identifiant" value="<?= $valI ?>" >
+                                    <div class="invalid-feedback">Indiquer votre email ou pseudo</div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-form-label ml-5" for="mdpt">Mot de passe</label>
+                                <label class="col-form-label ml-5" for="mdp">Mot de passe</label>
                                 <div class="input-group">
                                     <span class="fas fa-2x fa-lock mr-2"></span>
-                                     <input type="password" class="form-control" placeholder="Mot de passe" id="mdp" name="mdp">
+                                     <input type="password" class="form-control <?= $isValidMdp ?>" placeholder="Mot de passe" id="mdp" name="mdp">
+                                     <div class="invalid-feedback">Indiquer votre mot de passe </div>
                                 </div>
                             </div>
+                            
                             <div class="text-right mt-5">
-                                <button type="submit" class="btn btnvalide mb-2 pl-3 pr-3">Valider</button>
+                                <button type="submit" name='ok' class="btn btnvalide mb-2 pl-3 pr-3">Valider</button>
                             </div>
                         </form> 
                     </div>

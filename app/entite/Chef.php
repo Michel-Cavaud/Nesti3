@@ -7,15 +7,10 @@
  *
  * @author michel
  */
-class Chef {
-   private $id;
-   
-    public function __construct($row) {
-        
-        $this->id = $row['id_utilisateurs'];
-        
-    }
+class Chef extends Utilisateurs{
     
+    private $id;
+   
     function getId() {
         return $this->id;
     }

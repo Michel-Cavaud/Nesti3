@@ -7,14 +7,10 @@
  *
  * @author michel
  */
-class Moderateurs {
-   private $id;
+class Moderateurs  extends Utilisateurs{
+    
+    private $id;
    
-    public function __construct($row) {
-        
-        $this->id = $row['id_utilisateurs'];
-        
-    }
     
     function getId() {
         return $this->id;
