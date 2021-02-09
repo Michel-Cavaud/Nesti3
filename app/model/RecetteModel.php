@@ -10,12 +10,30 @@
 //include PATH_MODEL . 'database.php';
 
 class RecetteModel {
+    public function readOne($id){
+        
+        $pdo = Database::getPdo();
+        
+        $sql = "SELECT r.id_recettes as id, r.nom_recettes as nom, r.difficulte_recettes as difficulte, r.nombre_personne_recettes as nombrePersonne, 
+        r.temps_recettes as temps
+        FROM recettes as r WHERE id_recettes = :id";
+        
+        $sth = $pdo->prepare($sql);
+        $resultat = $sth->execute(array('id' => $id));
+        
+        if($resultat){
+            $array = $sth->fetchAll(PDO::FETCH_CLASS, 'Recettes');
+        }else{
+            $array = [];
+        }
+        return $array;
+        
+        
+    }
     
     public function readAll(){
        
         $pdo = Database::getPdo();
-        //$sql="SELECT id_recettes as id, nom_recettes as nom, difficulte_recettes as difficulte, temps_recettes as temps, nombre_personne_recettes as nombrePersonne 
-        //FROM recettes";
         
         $sql = "SELECT r.id_recettes as id, r.nom_recettes as nom, r.difficulte_recettes as difficulte, r.nombre_personne_recettes as nombrePersonne, 
         r.temps_recettes as temps, u.nom_utilisateurs as nomUtilisateur, c.id_chef as idChef
@@ -39,8 +57,11 @@ class RecetteModel {
                 $recette->setNombrePersonne($data['nombrePersonne']);
                 $recette->setTemps($data['temps']);
                 $recette->setChef($chef);
+            
+                array_push ($array, $recette);
             }
-            array_push ($array, $recette);
+            
+            
         
             
         }else{

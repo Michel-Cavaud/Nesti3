@@ -9,7 +9,8 @@
                             <h1>Création d'une recette</h1>
                             <div class="form-group">
                                 <label for="nomRecette">Nom de la recette</label>
-                                <input type="text" class="form-control rounded pt-3" id="nomRecette" nom="nomRecette">
+                                <input <?= $data['actifHaut']?> type="text" class="form-control rounded p-3" id="nomRecette" name="nomRecette" value="<?= $data['recette']->getNom(); ?>">
+                                <div class="erreur"><?= $data['nomRecetteMessage'] ?></div>
                                 <small class="form-text">Auteur de la recette : Cyril Lignac</small>
                             </div>
 
@@ -17,32 +18,45 @@
                             <div class="form-group row justify-content-between">
                                 <label for="difficulte" class="col-sm-6 col-form-label">Difficulté (note sur 5)</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control rounded" id="difficulte" name="difficulte">
+                                    <select <?= $data['actifHaut']?> class="custom-select"id="difficulte" name="difficulte">   
+                                        <option value=""></option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select><div class="erreur"><?= $data['difficulteMessage'] ?></div>
                                 </div>
+                                
                             </div>
+                             
                         
 
                             <div class="form-group row justify-content-between">
                                 <label for="nbPersonne" class="col-sm-6 col-form-label">Nombre de personne</label>
+                                
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control rounded" id="nbPersonne" name="nbPersonne">
+                                    <input <?= $data['actifHaut']?> type="text" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne"  value="<?= $data['recette']->getNombrePersonne(); ?>">
+                                    <div class="erreur"><?= $data['nbPersonneMessage'] ?></div>
                                 </div>
                             </div>
 
                             <div class="form-group row justify-content-between">
                                 <label for="temps" class="col-sm-6 col-form-label">Temps de préparation en minutes</label>
+                                
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control rounded" id="temps" name="temps">
+                                    <input <?= $data['actifHaut']?> type="text" class="form-control rounded text-center" id="temps" name="temps"  value="<?= $data['recette']->getTempsBrut(); ?>">
+                                    <div class="erreur"><?= $data['tempsMessage'] ?></div>
                                 </div>
                             </div>
 
-                            <div class="form-group row justify-content-between">
-                                <div class="col-sm-6">
-                                    <button type="button" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <button <?= $data['actifHaut']?> type="submit" name="ok" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
                                     
                                 </div>
                                 
-                                <div class="col-sm-6 text-right">
+                                <div class="col-sm-3">
                                    <button type="button" class="btn btn-lg pl-5 pr-5 btnAnnuler">Annuler</button>
                                 </div>
                             </div>
@@ -68,7 +82,8 @@
      </div>
 </section>
 
-<section class="mt-5 basRecette">
+
+<section class="mt-5 basRecette" >
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12 col-md-12 mt-4 mb-5">
@@ -85,68 +100,68 @@
                 <div class="row justify-content-between">
                     <div class="col-8">
                         <div class="row align-items-end">
-                            <div class="col-2   text-right">
+                            <div class="col-2 text-right">
                                 <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
+                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
                                         <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                     
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
+                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
                                         <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
+                                    <textarea <?= $data['actif']?>  class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-end">
                             <div class="col-2 text-right">
                                  <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
+                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
                                         <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                     
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
+                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
                                         <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                     
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btnCorbeille ml-3 mt-2 mb-4">
+                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-3 mt-2 mb-4">
                                         <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
+                                    <textarea <?= $data['actif']?> class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-end">
                             <div class="col-2 text-right">
                                  <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
+                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
                                         <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                     
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
+                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
                                         <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
+                                    <textarea <?= $data['actif']?> class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +172,7 @@
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <button type="button" class="btn btnPlus">
+                                    <button <?= $data['actif']?> type="button" class="btn btnPlus">
                                         <img src="<?=PATH_IMAGES . 'icons/grosPlus.png'?>" alt="" class="img-fluid">
                                     </button>
                                     
@@ -168,22 +183,24 @@
                     </div>
 
                     <div class="col-3">
-                        <div>
-                            <textarea class="form-control p-3 preparation" rows="20"></textarea>
-                        </div>
+                        <div class="articlesngredients p-3">
+                               <div class="row"  <?= $data['actif']?>>
+                                  
+                                </div>      
+                            </div>
                         <div class="form-group">
                             <label class="col-form-label col-form-label-lg" for="ingredient">Ajouter un ingrédient</label>
-                            <input class="form-control form-control-lg preparation" type="text"  >
+                            <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text"  >
                         </div>
-                        <div class="row justify-content-between">
+                        <div class="row justify-content-between" >
                             <div class="col-sm-5">
-                                <input class="form-control form-control-lg preparation" type="text"  >
+                                <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text"  >
                             </div>
                             <div class="col-sm-3">
-                                <input class="form-control form-control-lg preparation" type="text" >
+                                <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text" >
                             </div>
                             <div class="col-sm-3 text-right">
-                                    <button type="button" class="btn btn-lg btnOK">OK</button>
+                                    <button <?= $data['actif']?> type="button" class="btn btn-lg btnOK">OK</button>
                             </div>
                         </div>  
                     </div>
@@ -198,3 +215,7 @@
 </section>
 
 
+<script>
+    var select = document.querySelector("#difficulte");
+    select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+</script>

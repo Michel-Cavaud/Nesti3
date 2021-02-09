@@ -8,28 +8,19 @@
  */
 class Lots {
     private $refCommandLots;
-    private $idArticles;
+    private $articles;
     private $cout;
     private $quantite;
     private $dateCreation;
     
 
-
-    public function __construct($row) {
-        $this->refCommandLots = $row['ref_commandes_lots'];
-        $this->idArticless = $row['id_externe'];
-        $this->couts = $row['cout_unitaire_lots'];
-        $this->quantites = $row['quantite_achete_lots'];
-        $this->dateCreations = $row['date_creation_lots'];
-        
-    }
     
     function getRefCommandLots() {
         return $this->refCommandLots;
     }
 
-    function getIdArticles() {
-        return $this->idArticles;
+    function getArticles() {
+        return $this->articles;
     }
 
     function getCout() {
@@ -48,8 +39,8 @@ class Lots {
         $this->refCommandLots = $refCommandLots;
     }
 
-    function setIdArticles($idArticles): void {
-        $this->idArticles = $idArticles;
+    function setArticles($articles): void {
+        $this->articles = $articles;
     }
 
     function setCout($cout): void {

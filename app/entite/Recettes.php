@@ -68,6 +68,10 @@ class Recettes {
        
         return Fonctions::formatTemps($this->temps);
     }
+     function getTempsBrut() {
+       
+        return $this->temps;
+    }
 
 
     function setId($id): void {

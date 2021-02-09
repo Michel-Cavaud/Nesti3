@@ -38,6 +38,12 @@ h2 {
     font-weight: bold;
     color: var(--primaryColor);
 }
+
+select {
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
 .btnnav {
     color: var(--classicColor4);
     background-color: var(--primaryColor);
@@ -86,6 +92,8 @@ h2 {
 .btnBlanc {
     border-color: var(--primaryLightColor);
     background-color: var(--classicColor4);
+    color: var(--primaryDarkColor);
+    font-weight: bold;
 }
 .basRecette {
     background-color: var(--classicColor3);
@@ -105,9 +113,16 @@ input {
 }
 .btnOK {
     background-color: var(--valid);
+    color: var(--primaryColor);
+    font-weight: bold;
+}
+
+.importer {
+    background-color: var(--valid);
     color: var(--classicColor4);
     font-weight: bold;
 }
+
 .btnBas {
     background-color: var(--alerte);
 }
@@ -133,6 +148,11 @@ input {
 .modalCorps {
     background-color: var(--disabled);
 }
+.btnCommandes{
+    background-color: var(--secondaryColor);
+    color: var(--primaryDarkColor);
+    font-weight: bold;
+}
 .modalTitre,
 .modalAvertissement {
     background-color: var(--classicColor4);
@@ -146,6 +166,37 @@ input {
     color: var(--danger);
 }
 
+.articlesImport{
+    height: 50vh;
+    width: 80vh;
+    border-radius: 10px;
+    border : 1px solid var(--primaryLightColor);
+}
+.articlesngredients{
+    background-color: var(--classicColor4);
+    height: 60vh;
+    width: 50vh;
+    border-radius: 10px;
+    border : 1px solid var(--primaryLightColor);
+}
+.progress {
+    height: 0.3rem;
+   
+}
+.progress-bar{
+    
+    background-color:red;
+}
+.list-groupNoValid{
+    background-color: var(--alerte);
+}
+.list-groupValid{
+    background-color: var(--valid);
+}
+.erreur{
+    color : var(--danger);
+    font-size: 0.6rem;
+}
 /*login css*/
 
 .bodylogin {

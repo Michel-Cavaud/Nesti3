@@ -14,22 +14,36 @@ class Articles {
     private $etat;
     private $dateCreation;
     private $dateMiseAJour;
-    private $idProduits;
-    private $idUniteMesure;
-    private $idImages;
+    private $produits;
+    private $uniteMesure;
+    private $images;
     
     
-    public function __construct($row) {
-        $this->id = $row['id_externe'];
-        $this->quantite = $row['quantite_unite_articles'];
-        $this->etat = $row['etat_articles'];
-        $this->dateCreation = $row['date_creation_articles'];
-        $this->dateMiseAJour = $row['date_mise_jour_articles'];
-        $this->idProduits = $row['id_produits'];
-        $this->idUniteMesure = $row['id_unites_de_mesure'];
-        $this->idImages = $row['id_images'];
+    function getUniteMesure() {
+        return $this->uniteMesure;
     }
-    
+
+    function setUniteMesure($uniteMesure): void {
+        $this->uniteMesure = $uniteMesure;
+    }
+
+       
+    function getProduits() {
+        return $this->produits;
+    }
+
+    function getImages() {
+        return $this->images;
+    }
+
+    function setProduits($produits): void {
+        $this->produits = $produits;
+    }
+
+    function setImages($images): void {
+        $this->images = $images;
+    }
+
     function getId() {
         return $this->id;
     }
@@ -50,18 +64,6 @@ class Articles {
         return $this->dateMiseAJour;
     }
 
-    function getIdProduits() {
-        return $this->idProduits;
-    }
-
-    function getIdUniteMesure() {
-        return $this->idUniteMesure;
-    }
-
-    function getIdImages() {
-        return $this->idImages;
-    }
-
     function setId($id): void {
         $this->id = $id;
     }
@@ -80,18 +82,6 @@ class Articles {
 
     function setDateMiseAJour($dateMiseAJour): void {
         $this->dateMiseAJour = $dateMiseAJour;
-    }
-
-    function setIdProduits($idProduits): void {
-        $this->idProduits = $idProduits;
-    }
-
-    function setIdUniteMesure($idUniteMesure): void {
-        $this->idUniteMesure = $idUniteMesure;
-    }
-
-    function setIdImages($idImages): void {
-        $this->idImages = $idImages;
     }
 
 

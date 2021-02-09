@@ -43,7 +43,7 @@ $data = array(
 );
 
 $arrayLoc = array('login', 'recettes', 'articles', 'utilisateurs', 'statistiques');
-$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer');
+$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer', 'importer');
 if(in_array($loc, $arrayLoc)){
    include_once PATH_CTRL . 'controler' . $loc . '.php'; 
 }
@@ -51,11 +51,8 @@ else{
     header('Location:' . PATH_ERROR . 'error404.html');
 }
 
-if($loc != 'login'){
-    include_once PATH_VIEW . 'template.php'; 
-}else{
-     include_once PATH_VIEW . 'templatelogin.php';
-}
+include_once PATH_VIEW . 'template.php'; 
+
 
 
 

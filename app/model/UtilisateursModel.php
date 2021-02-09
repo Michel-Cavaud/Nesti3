@@ -20,4 +20,9 @@ class UtilisateursModel {
         return $array;
 
     }
+    
+    public function readAll(){
+  
+         return $array = [];
+     }
 }

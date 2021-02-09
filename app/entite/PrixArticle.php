@@ -11,45 +11,39 @@ class PrixArticle {
     private $id;
     private $dateCreation;
     private $prix;
-    private $idArticles;
+    private $articles;
 
 
-    public function __construct($row) {
-        $this->id = $row['id_prix_article'];
-        $this->dateCreation  = $row['date_creation_prix_article'];
-        $this->prix = $row['prix_prix_article'];
-        $this->idArticles = $row['id_externe'];
-    }
     function getId() {
         return $this->id;
     }
 
-    function getVateCreation() {
-        return $this->vateCreation;
+    function getDateCreation() {
+        return $this->dateCreation;
     }
 
     function getPrix() {
         return $this->prix;
     }
 
-    function getIdArticles() {
-        return $this->idArticles;
+    function getArticles() {
+        return $this->Articles;
     }
 
     function setId($id): void {
         $this->id = $id;
     }
 
-    function setVateCreation($vateCreation): void {
-        $this->vateCreation = $vateCreation;
+    function setDateCreation($dateCreation): void {
+        $this->dateCreation = $dateCreation;
     }
 
     function setPrix($prix): void {
         $this->prix = $prix;
     }
 
-    function setIdArticles($idArticles): void {
-        $this->idArticles = $idArticles;
+    function setArticles($articles): void {
+        $this->articles = $articles;
     }
 
 
