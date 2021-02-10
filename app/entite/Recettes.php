@@ -64,6 +64,11 @@ class Recettes {
         return $this->etat;
     }
 
+    function getTempsSQL() {
+       
+        return Fonctions::formatTempsSQL($this->temps);
+    }
+
     function getTemps() {
        
         return Fonctions::formatTemps($this->temps);

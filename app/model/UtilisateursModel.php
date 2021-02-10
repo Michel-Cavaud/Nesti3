@@ -7,7 +7,7 @@ class UtilisateursModel {
 
         $pdo = Database::getPdo();
 
-        $sql = "SELECT id_utilisateurs as id, mdp_utilisateurs as mdp FROM utilisateurs WHERE email_utilisateurs = :identifiant OR pseudo_utilisateurs = :identifiant";
+        $sql = "SELECT id_utilisateurs as id, mdp_utilisateurs as mdp, nom_utilisateurs as nom, prenom_utilisateurs as prenom FROM utilisateurs WHERE email_utilisateurs = :identifiant OR pseudo_utilisateurs = :identifiant";
 
         $sth = $pdo->prepare($sql);
         $resultat = $sth->execute(array('identifiant' => $identifiant));

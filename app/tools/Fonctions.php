@@ -14,6 +14,31 @@ class Fonctions{
         return $retour;
 
     }
+    public static function formatTempsSQL($time){
+        
+            if($time < 60){
+                $heures = "00";
+                $minutes = $time;
+            }else{
+                $heures = round($time / 60); 
+                $minutes = round($time % 60);
+                if($heures < 10){
+                    $heures = "0" . $heures;
+                }
+            } 
+     
+       
+        $secondes2 = "00"; 
+        if($minutes < 10){
+            $minutes = "0" . $minutes;
+        }
+        
+      
+        $timeFinal = $heures . ":" . $minutes . ":" . $secondes2; 
+        //var_dump($timeFinal);
+        return $timeFinal; 
+        
+    }
 
     public static function cript($mdp){
         $options = [

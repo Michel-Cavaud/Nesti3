@@ -40,11 +40,9 @@ class RecetteModel {
         FROM recettes as r, utilisateurs as u, chef as c WHERE r.id_chef = c.id_chef and c.id_chef = u.id_utilisateurs";
         
         $resultat = $pdo->query($sql);
-        
-        
+
         $array = [];
         if($resultat){
-            
             while($data = $resultat->fetch( PDO::FETCH_ASSOC )){ 
                 $chef = new Chef();
                 $chef->setId($data['idChef']);  
@@ -60,13 +58,33 @@ class RecetteModel {
             
                 array_push ($array, $recette);
             }
-            
-            
-        
-            
         }else{
             $array;
         }
         return $array;
     }
+
+    public function insert($recette){
+
+        $pdo = Database::getPdo();
+
+        $sql = "INSERT INTO `recettes` (`nom_recettes`, `difficulte_recettes`, `nombre_personne_recettes`, `etat_recettes`, `temps_recettes`, `id_chef`) "
+                . "VALUES (:nom, :difficulte, :nbPersonne, :etat, :temps, :chef);";
+
+        try {
+            $pdo->beginTransaction();
+            $sth = $pdo->prepare($sql);
+            $sth->execute(array('nom' => $recette->getNom(), 'difficulte' => $recette->getDifficulte(), 'nbPersonne' => $recette->getNombrePersonne(),
+                'etat' => $recette->getEtat(), 'temps' => $recette->getTempsSQL(), 'chef' => $recette->getChef()->getId()));
+            //$sth->debugDumpParams();
+            $id = $pdo->lastInsertId();
+            $pdo->commit();
+         
+        } catch(PDOExecption $e) {
+            $pdo->rollback();
+        }
+        return $id;
+    }
+
+    
 }

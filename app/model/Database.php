@@ -1,5 +1,15 @@
-<?php 
-    include_once('./app/config/configSQL.php');
+<?php
+
+    $source = "./app/config/configSQL.php";
+    if (file_exists($source)) {
+            require_once $source;
+    }else{
+        require_once '../config/configSQL.php';
+    }
+   
+    
+    
+    
     class Database { 
       
        

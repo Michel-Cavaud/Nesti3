@@ -71,8 +71,11 @@ class controlerFormRecette {
     }
 
     private function filter_int($input) {
-        $reponse_filtre = filter_var($input, FILTER_SANITIZE_NUMBER_INT);
-        return empty($reponse_filtre)?null:$reponse_filtre;
+            $reponse_filtre = filter_var($input, FILTER_SANITIZE_NUMBER_INT, array("options"=>array("min_range"=>1)));
+        
+            return (empty($reponse_filtre))?null:$reponse_filtre;
+       
+        
     }
 
     public function hasErrors() {

@@ -2,13 +2,17 @@
 
 $modelRecette = new RecetteModel();
  $data['recette'] = new Recettes();
+ $data['recette']->setDifficulte(0);
  //$data['recette']->setNom('');
  $data['nomRecetteMessage'] = "";
  $data['difficulteMessage'] = "";
  $data['tempsMessage'] = "";
  $data['nbPersonneMessage'] = "";
+ $data['messageInsert']= "";
  
  $data['actifHaut'] = "";
+ 
+
  
 if (isset($_POST['ok'])){
     extract($_POST);
@@ -19,6 +23,10 @@ if (isset($_POST['ok'])){
     $data['recette']->setDifficulte($difficulte);
     $data['recette']->setNombrePersonne($nbPersonne);
     $data['recette']->setTemps($temps);
+    $data['recette']->setEtat("w");
+    $chef = new Chef();
+    $chef->setId($_SESSION['idUser']);
+    $data['recette']->setChef($chef);
     
     if($filtre->hasErrors()) {
         $listeErreurs = $filtre->errors; 
@@ -35,18 +43,22 @@ if (isset($_POST['ok'])){
             $data['tempsMessage'] = $listeErreurs['temps'];
         }
      }else{
-         $data['actifHaut'] = "disabled='disabled'";
-         $data['actif'] = "";
-         
-         $id= 1;
+        $data['actifHaut'] = "disabled='disabled'";
+        $data['actif'] = "";
+        $idNew = $modelRecette->insert($data['recette']);
+        $data['messageInsert'] = "Votre recette a été créé en mode attente. Pour valider votre recette compléter les Ingrédients et les préparations";
+        
      }
+}else{
+     $idNew = "";
 }
+
 if($action == ""){
     $data = listRecettes($data, $modelRecette);   
 }else{
     switch ($action) {
         case 'ajout':
-            $data = ajout($data, $id);
+            $data = ajout($data, $idNew);
             break;
         case 'edition':
             $data = edition($data, $modelRecette, $id);
@@ -81,12 +93,12 @@ function listRecettes($data, $modelRecette){
     return $data;
 }
 
-function ajout($data, $id){
+function ajout($data, $idNew){
     $data['chemin'] = "Recettes";
     $data['cheminRole'] = "recettes";
     $data['chemin2'] = "> Recette";
-    
-    if($id ==""){
+    $data['idNew'] = $idNew;
+    if($idNew == ""){
         $data['actif'] = "disabled='disabled'";
     }else{
         $data['actif'] = "";

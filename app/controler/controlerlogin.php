@@ -6,8 +6,10 @@ $valI = "";
 
 if($action == "deconnexion"){
     $messageConnexion = "Déconnexion réussi";
-
     $couleur = "disabled";
+    
+    $maSession->disconnectUser();
+    
 }else{
     $messageConnexion = "";
 
@@ -28,14 +30,20 @@ if (isset($_POST['ok'])){
 
     if ($mdp != "" & $identifiant !=""){
         $utilisateursModel = new UtilisateursModel;
-
+        $userConnect = null;
         $users = $utilisateursModel->connexionUser($identifiant);
         foreach($users as $user){
             if(Fonctions::deCript($mdp, $user->getMdp())){
-                
-
+                $userConnect = $user;
+                break; 
             }
-
+        }
+        
+        if($userConnect != null){
+            $maSession->connectUser($userConnect->getId(), $userConnect->getNom(), $userConnect->getPrenom());
+           
+            //var_dump($_SESSION);
+            header('Location:' . BASE_URL);
         }
     }
 

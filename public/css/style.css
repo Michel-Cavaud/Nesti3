@@ -175,7 +175,7 @@ input {
 .articlesngredients{
     background-color: var(--classicColor4);
     height: 60vh;
-    width: 50vh;
+    width: 40vh;
     border-radius: 10px;
     border : 1px solid var(--primaryLightColor);
 }

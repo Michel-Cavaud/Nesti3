@@ -21,7 +21,7 @@
       
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <div class="ml-4"><span class="fas fa-user mr-1"></span>Nom user</div>
+        <div class="ml-4"><span class="fas fa-user mr-1"></span><?=$_SESSION['prenomUser'] . ' ' . $_SESSION['nomUser'] ?></div>
         <buttton type="link" data-role="login/deconnexion" class="btn"><span class="fas fa-sign-out-alt mr-1 ml-2"></span> Déconnexion</button>
     </form>
   </div>

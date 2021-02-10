@@ -10,11 +10,7 @@ class Produits {
     
     private $id;
     private $nom;
-    
-    public function __construct($row) {
-        $this->id = $row['id_produits'];
-        $this->nom = $row['nom_produits'];
-    }
+
     
     function getId() {
         return $this->id;

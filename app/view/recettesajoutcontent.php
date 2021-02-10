@@ -11,7 +11,7 @@
                                 <label for="nomRecette">Nom de la recette</label>
                                 <input <?= $data['actifHaut']?> type="text" class="form-control rounded p-3" id="nomRecette" name="nomRecette" value="<?= $data['recette']->getNom(); ?>">
                                 <div class="erreur"><?= $data['nomRecetteMessage'] ?></div>
-                                <small class="form-text">Auteur de la recette : Cyril Lignac</small>
+                                <small class="form-text">Auteur de la recette : <?=$_SESSION['prenomUser'] . ' ' . $_SESSION['nomUser'] ?></small>
                             </div>
 
                         
@@ -36,7 +36,7 @@
                                 <label for="nbPersonne" class="col-sm-6 col-form-label">Nombre de personne</label>
                                 
                                 <div class="col-sm-3">
-                                    <input <?= $data['actifHaut']?> type="text" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne"  value="<?= $data['recette']->getNombrePersonne(); ?>">
+                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne"  value="<?= $data['recette']->getNombrePersonne(); ?>">
                                     <div class="erreur"><?= $data['nbPersonneMessage'] ?></div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                 <label for="temps" class="col-sm-6 col-form-label">Temps de préparation en minutes</label>
                                 
                                 <div class="col-sm-3">
-                                    <input <?= $data['actifHaut']?> type="text" class="form-control rounded text-center" id="temps" name="temps"  value="<?= $data['recette']->getTempsBrut(); ?>">
+                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center" id="temps" name="temps"  value="<?= $data['recette']->getTempsBrut(); ?>">
                                     <div class="erreur"><?= $data['tempsMessage'] ?></div>
                                 </div>
                             </div>
@@ -57,26 +57,34 @@
                                 </div>
                                 
                                 <div class="col-sm-3">
-                                   <button type="button" class="btn btn-lg pl-5 pr-5 btnAnnuler">Annuler</button>
+                                   <button <?= $data['actifHaut']?> type="reset" class="btn btn-lg pl-5 pr-5 btnAnnuler">Annuler</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <?=$data['messageInsert']?>
                                 </div>
                             </div>
                         </div>
+                </form>
+                
                         <div class="col-5">
-                            <img src="<?=PATH_IMAGES . 'vide.png'?>" alt="Image vide" class="img-fluid">
+                            <img id="preview" src="<?=PATH_IMAGES . 'vide.png'?>" alt="Image vide" class="img-fluid">
                             <div class="mt-3">Télecharger une nouvelle image</div>
-                            
+<form id="formImage" action="" method="post" enctype="multipart/form-data">
                             <div class="form-group row justify-content-between">
-                               
-                                <div class="col-sm-8">
-                                    <input type="file" class="form-control-file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
-                                </div>
-                                <div class="col-sm-4 text-right">
-                                    <button type="button" class="btn  btn-lg btnOK">OK</button>
-                                </div>
-                            </div>
+                                <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew" id="idNews">
+                                    <div class="col-sm-8">
+                                        <input <?=$data['actif']?> type="file" class="form-control-file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <button <?=$data['actif']?> id="imageOK" type="submit" class="btn  btn-lg btnOK">OK</button>
+                                    </div>
+                            </div> 
+</form>
                         </div>
                     </div>
-                </form>
+                
             </div>
         </div>
      </div>
@@ -96,8 +104,9 @@
                         <h2>Liste des ingrédients</h2>
                     </div>
                 </div>
-
+<form action="" method="POST" id="preparations">
                 <div class="row justify-content-between">
+                    
                     <div class="col-8">
                         <div class="row align-items-end">
                             <div class="col-2 text-right">
@@ -175,23 +184,32 @@
                                     <button <?= $data['actif']?> type="button" class="btn btnPlus">
                                         <img src="<?=PATH_IMAGES . 'icons/grosPlus.png'?>" alt="" class="img-fluid">
                                     </button>
-                                    
-                                    
                                 </div>
                             </div>
                         </div>
-                    </div>
+                         <div class="form-group row text-center">
+                            <div class="col-12">
+                                <button <?= $data['actif']?> type="submit" name="ok" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
 
+                            </div>
+                         </div>
+                    </div>
+</form>
                     <div class="col-3">
-                        <div class="articlesngredients p-3">
-                               <div class="row"  <?= $data['actif']?>>
+                        <div class="articlesngredients p-3" <?= $data['actif']?>>
+                               <div class="row">
                                   
                                 </div>      
                             </div>
                         <div class="form-group">
                             <label class="col-form-label col-form-label-lg" for="ingredient">Ajouter un ingrédient</label>
-                            <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text"  >
+                            <span id="ingredientsContainer">
+                                <input id="inputIngredient" class="form-control form-control-lg preparation" type="text">
+                            </span>
+                            <span id="loading" style="display: none;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+                            <input name="ingredient-hidden" type="hidden" />
                         </div>
+<form action="" method="POST" id="ingredients">
                         <div class="row justify-content-between" >
                             <div class="col-sm-5">
                                 <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text"  >
@@ -200,9 +218,10 @@
                                 <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text" >
                             </div>
                             <div class="col-sm-3 text-right">
-                                    <button <?= $data['actif']?> type="button" class="btn btn-lg btnOK">OK</button>
+                                <button <?= $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
                             </div>
-                        </div>  
+                        </div> 
+</form>
                     </div>
                     <div class="col-1"></div>
                 </div>
@@ -216,6 +235,83 @@
 
 
 <script>
-    var select = document.querySelector("#difficulte");
-    select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+    $(document).ready(function () {
+        var select = document.querySelector("#difficulte");
+        select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+
+        $("#formImage").on('submit',(function(e) {
+            e.preventDefault();
+            if($('#image').val() != ""){
+                $.ajax({
+                     url: "<?=PATH_AJAX ?>imageAjax.php",
+                     type: "POST",
+                      data:  new FormData(this),
+                      contentType: false,
+                     cache: false,
+                      processData:false,
+
+                      success: function(data){
+
+                           $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
+                          $("#form")[0].reset();
+                      }
+                  });
+            }
+        }));   
+            
+
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+        
+        var cache = {};
+        var term = null;
+
+        $('#inputIngredient').autocomplete({
+            minLength:2, 
+            delay:200, 
+            scrollHeight:320,
+            appendTo:'#ingredientsContainer',
+            
+            source:function(e,t){
+            term = e.term; 
+            if(term in cache){
+                t(cache[term]);
+            }else{ 
+                $('#loading').attr('style','');
+                    $.ajax({
+                        type:'POST',
+                        url:"<?=PATH_AJAX ?>ingredientsAjax.php",
+                        data:'name='+e.term,
+                        dataType:"json",
+                        async:true,
+                        cache:true,
+                        success:function(e){
+                            cache[term] = e; 
+                            if(e.length){   
+                                t($.map(e, function (item){
+                                    return{
+                                        label: item.label,
+                                        value: item.value,
+                                        id: item.id
+                                    };
+                                }));  
+                            }
+                            $('#loading').attr('style','display:none;');
+                        }
+                    });
+                }
+            },
+            select: function(event, ui) {
+                $('form input[name="ingredient-hidden"]').val(ui.item ? ui.item.id : '');
+            },
+            open: function() {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function() {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+        
+     });
 </script>

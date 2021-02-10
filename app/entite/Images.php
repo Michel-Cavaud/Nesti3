@@ -13,13 +13,6 @@ class Images {
     private $nom;
     private $extension;
 
-
-    public function __construct($row) {
-        $this->id = $row['id_images'];
-        $this->dateCreation = $row['date_creation_images'];
-        $this->nom = $row['nom_images'];
-        $this->extension = $row['extension_images'];
-    }
     
     function getId() {
         return $this->id;
