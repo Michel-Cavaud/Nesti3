@@ -50,7 +50,7 @@ if (isset($_POST['ok'])){
         
      }
 }else{
-     $idNew = "";
+     $idNew = 1;
 }
 
 if($action == ""){

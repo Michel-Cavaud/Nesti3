@@ -172,7 +172,7 @@ input {
     border-radius: 10px;
     border : 1px solid var(--primaryLightColor);
 }
-.articlesngredients{
+.articlesingredients{
     background-color: var(--classicColor4);
     height: 60vh;
     width: 40vh;
@@ -181,7 +181,6 @@ input {
 }
 .progress {
     height: 0.3rem;
-   
 }
 .progress-bar{
     

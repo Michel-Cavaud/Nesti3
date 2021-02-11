@@ -196,31 +196,45 @@
                     </div>
 </form>
                     <div class="col-3">
-                        <div class="articlesngredients p-3" <?= $data['actif']?>>
-                               <div class="row">
-                                  
-                                </div>      
-                            </div>
+                        <div class="articlesingredients p-3" <?= $data['actif']?> >
+                               
+                        </div>
+<form action="" method="POST" id="ingredients">
                         <div class="form-group">
                             <label class="col-form-label col-form-label-lg" for="ingredient">Ajouter un ingrédient</label>
                             <span id="ingredientsContainer">
-                                <input id="inputIngredient" class="form-control form-control-lg preparation" type="text">
+                                <span id="loading" style="display: none;" class="spinner-border text-warning" role="status">
+                                     <span class="sr-only">Loading...</span>
+                                </span>
+                                <input name="inputIngredient" id="inputIngredient" class="form-control form-control-lg preparation" type="text"> 
                             </span>
-                            <span id="loading" style="display: none;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
-                            <input name="ingredient-hidden" type="hidden" />
+                           
                         </div>
-<form action="" method="POST" id="ingredients">
+
+                         <input name="ingredientHidden" id="ingredient-hidden"  type="hidden" />
+                         <input name="uniteHidden" id="unite-hidden"  type="hidden" />
+                         <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew">
                         <div class="row justify-content-between" >
                             <div class="col-sm-5">
-                                <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text"  >
+                                <input id="qty" name="qty" class="form-control form-control-lg preparation" type="number" min="1" step="1"  >
                             </div>
-                            <div class="col-sm-3">
-                                <input <?= $data['actif']?> class="form-control form-control-lg preparation" type="text" >
+                            <div class="col-sm-4 form-group">
+                                 <span id="unitesContainer">
+                                    <span id="uniteLoading" style="display: none;" class="spinner-border text-warning" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </span>
+                                    <input name="inputUnite" id="inputUnite" class="form-control form-control-lg preparation" type="text" >
+                                </span>
                             </div>
                             <div class="col-sm-3 text-right">
-                                <button <?= $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
+                                <button <?php //echo $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
                             </div>
                         </div> 
+                         <div class="row" >
+                             <div class="col-12">
+                                 <p id="erreurDoubleIngredient"></p>
+                             </div>
+                         </div>
 </form>
                     </div>
                     <div class="col-1"></div>
@@ -238,24 +252,85 @@
     $(document).ready(function () {
         var select = document.querySelector("#difficulte");
         select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+        
+        $("#ingredients").on('submit',(function(e) {
+            e.preventDefault();
+            if($('#inputIngredient').val() != "" && $('#inputUnite').val() != "" && $('#qty').val() != "" ){
+                $('#erreurDoubleIngredient').text(''); 
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>newIngredientAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    dataType:"json",
+
+                    success: function(data){
+                        if("erreur" in data){
+                            $('#erreurDoubleIngredient').text(data.erreur);  
+                        }else{
+                            $("#ingredients")[0].reset();
+                            var  html = "";
+                            for (var item in data){
+                                html +="<div class='row justify-content-between'><div class='col-8'>" + data[item].nom ;
+                                html += "</div> <div class='col-4'><button type='button' data-id='" + data[item].bouton;
+                                html += "' class='btn btn-link p-0 m-0'>Supprimer</button></div></div> ";
+                            }
+                            $('.articlesingredients').html(''); 
+                            $('.articlesingredients').html(html);  
+                        }
+                    }
+                });
+            }else{
+                console.log('erreur');
+            }
+        }));
+        
+        $('.articlesingredients').on('click', '.btn', function(e){
+            var id = $(this).data("id");
+            console.log(id);
+            $.ajax({
+                url: "<?=PATH_AJAX ?>supIngredientAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idProduit" : id, "idNew" : <?= $data['idNew'] ?>})},
+              
+                dataType:"json",
+
+                success: function(data){
+
+                    $('#erreurDoubleIngredient').text(data.erreur);  
+                    $("#ingredients")[0].reset();
+                    var  html = "";
+                    for (var item in data){
+                        html +="<div class='row justify-content-between'><div class='col-8'>" + data[item].nom ;
+                        html += "</div> <div class='col-4'><button type='button' data-id='" + data[item].bouton;
+                        html += "' class='btn btn-link p-0 m-0'>Supprimer</button></div></div> ";
+                    }
+                    $('.articlesingredients').html(''); 
+                    $('.articlesingredients').html(html);  
+
+                }
+             });
+            
+        });
 
         $("#formImage").on('submit',(function(e) {
             e.preventDefault();
             if($('#image').val() != ""){
                 $.ajax({
-                     url: "<?=PATH_AJAX ?>imageAjax.php",
-                     type: "POST",
-                      data:  new FormData(this),
-                      contentType: false,
-                     cache: false,
-                      processData:false,
+                    url: "<?=PATH_AJAX ?>imageAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
 
-                      success: function(data){
-
-                           $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
-                          $("#form")[0].reset();
-                      }
-                  });
+                    success: function(data){
+                       $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
+                       $("#form")[0].reset();
+                    }
+                });
             }
         }));   
             
@@ -266,9 +341,9 @@
         
         var cache = {};
         var term = null;
-
+        
         $('#inputIngredient').autocomplete({
-            minLength:2, 
+            minLength:1, 
             delay:200, 
             scrollHeight:320,
             appendTo:'#ingredientsContainer',
@@ -303,7 +378,56 @@
                 }
             },
             select: function(event, ui) {
-                $('form input[name="ingredient-hidden"]').val(ui.item ? ui.item.id : '');
+                $('form input[name="ingredientHidden"]').val(ui.item ? ui.item.id : '');
+            },
+            open: function() {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function() {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+        
+        var cache2 = {};
+        var term2 = null;
+        
+        $('#inputUnite').autocomplete({
+            minLength:1, 
+            delay:200, 
+            scrollHeight:320,
+            appendTo:'#unitesContainer',
+            
+            source:function(e,t){
+            term2 = e.term; 
+            if(term2 in cache2){
+                t(cache2[term]);
+            }else{ 
+                $('#uniteLoading').attr('style','');
+                    $.ajax({
+                        type:'POST',
+                        url:"<?=PATH_AJAX ?>unitesAjax.php",
+                        data:'name='+e.term,
+                        dataType:"json",
+                        async:true,
+                        cache:true,
+                        success:function(e){
+                            cache2[term] = e; 
+                            if(e.length){   
+                                t($.map(e, function (item){
+                                    return{
+                                        label: item.label,
+                                        value: item.value,
+                                        id: item.id
+                                    };
+                                }));  
+                            }
+                            $('#uniteLoading').attr('style','display:none;');
+                        }
+                    });
+                }
+            },
+            select: function(event, ui) {
+                $('form input[name="uniteHidden"]').val(ui.item ? ui.item.id : '');
             },
             open: function() {
                 $(this).removeClass("ui-corner-all").addClass("ui-corner-top");

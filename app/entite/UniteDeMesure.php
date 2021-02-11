@@ -11,8 +11,12 @@ class UniteDeMesure {
     
     private $id;
     private $nom;
-
-    function getNom() {
+    
+    
+    function getId() {
+        return $this->id;
+    }
+        function getNom() {
         return $this->nom;
     }
 

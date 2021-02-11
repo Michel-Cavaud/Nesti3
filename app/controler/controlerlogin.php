@@ -41,8 +41,7 @@ if (isset($_POST['ok'])){
         
         if($userConnect != null){
             $maSession->connectUser($userConnect->getId(), $userConnect->getNom(), $userConnect->getPrenom());
-           
-            //var_dump($_SESSION);
+
             header('Location:' . BASE_URL);
         }
     }

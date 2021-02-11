@@ -9,11 +9,7 @@
  */
 class Ingredients extends Produits{
        
-   
-    
     private $id;
     private $nom;
-    
-
 
 }

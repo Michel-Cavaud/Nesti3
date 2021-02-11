@@ -43,7 +43,7 @@
                             </div>
                             
                             <div class="text-right mt-5">
-                                <button type="submit" name='ok' class="btn btnvalide mb-2 pl-3 pr-3">Valider</button>
+                                <button type="submit" name='ok' class="btn btnvalide mb-2 px-3 ">Valider</button>
                             </div>
                         </form> 
                     </div>
