@@ -10,6 +10,11 @@ if($action == "deconnexion"){
     
     $maSession->disconnectUser();
     
+}else if ($action == "erreur"){
+    $messageConnexion = "Erreur de connexion merci de vérifier vos identifiants !";
+    $couleur = "erreurLogin";
+    $maSession->disconnectUser();
+    
 }else{
     $messageConnexion = "";
 
@@ -41,8 +46,16 @@ if (isset($_POST['ok'])){
         
         if($userConnect != null){
             $maSession->connectUser($userConnect->getId(), $userConnect->getNom(), $userConnect->getPrenom());
-
+            
+            $utilisateur = new Utilisateurs();
+            $utilisateur->setId($userConnect->getId());
+            $logsUtilisateur = new LogsUtilisateursModel();
+            $logsUtilisateur->insert($utilisateur);
+            
             header('Location:' . BASE_URL);
+        }else{
+          
+            header('Location:' . BASE_URL . 'login/erreur');
         }
     }
 

@@ -17,7 +17,7 @@ $data = array(
 );
 
 $arrayLoc = array('login', 'recettes', 'articles', 'utilisateurs', 'statistiques');
-$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer', 'importer');
+$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer', 'importer', 'erreur');
 if(in_array($loc, $arrayLoc)){
    include_once PATH_CTRL . 'controler' . $loc . '.php'; 
 }

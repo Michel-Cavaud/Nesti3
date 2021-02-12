@@ -219,7 +219,7 @@
                                 <input id="qty" name="qty" class="form-control form-control-lg preparation" type="number" min="1" step="1"  >
                             </div>
                             <div class="col-sm-4 form-group">
-                                 <span id="unitesContainer">
+                                <span id="unitesContainer">
                                     <span id="uniteLoading" style="display: none;" class="spinner-border text-warning" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </span>
@@ -339,8 +339,7 @@
             window.history.replaceState( null, null, window.location.href );
         }
         
-        var cache = {};
-        var term = null;
+       
         
         $('#inputIngredient').autocomplete({
             minLength:1, 
@@ -349,33 +348,27 @@
             appendTo:'#ingredientsContainer',
             
             source:function(e,t){
-            term = e.term; 
-            if(term in cache){
-                t(cache[term]);
-            }else{ 
                 $('#loading').attr('style','');
-                    $.ajax({
-                        type:'POST',
-                        url:"<?=PATH_AJAX ?>ingredientsAjax.php",
-                        data:'name='+e.term,
-                        dataType:"json",
-                        async:true,
-                        cache:true,
-                        success:function(e){
-                            cache[term] = e; 
-                            if(e.length){   
-                                t($.map(e, function (item){
-                                    return{
-                                        label: item.label,
-                                        value: item.value,
-                                        id: item.id
-                                    };
-                                }));  
-                            }
-                            $('#loading').attr('style','display:none;');
+                $.ajax({
+                    type:'POST',
+                    url:"<?=PATH_AJAX ?>ingredientsAjax.php",
+                    data:'name='+e.term,
+                    dataType:"json",
+                    async:true,
+                    cache:true,
+                    success:function(e){
+                        if(e.length){   
+                            t($.map(e, function (item){
+                                return{
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                };
+                            }));  
                         }
-                    });
-                }
+                        $('#loading').attr('style','display:none;');
+                    }
+                });
             },
             select: function(event, ui) {
                 $('form input[name="ingredientHidden"]').val(ui.item ? ui.item.id : '');
@@ -388,8 +381,7 @@
             }
         });
         
-        var cache2 = {};
-        var term2 = null;
+       
         
         $('#inputUnite').autocomplete({
             minLength:1, 
@@ -398,33 +390,27 @@
             appendTo:'#unitesContainer',
             
             source:function(e,t){
-            term2 = e.term; 
-            if(term2 in cache2){
-                t(cache2[term]);
-            }else{ 
                 $('#uniteLoading').attr('style','');
-                    $.ajax({
-                        type:'POST',
-                        url:"<?=PATH_AJAX ?>unitesAjax.php",
-                        data:'name='+e.term,
-                        dataType:"json",
-                        async:true,
-                        cache:true,
-                        success:function(e){
-                            cache2[term] = e; 
-                            if(e.length){   
-                                t($.map(e, function (item){
-                                    return{
-                                        label: item.label,
-                                        value: item.value,
-                                        id: item.id
-                                    };
-                                }));  
-                            }
-                            $('#uniteLoading').attr('style','display:none;');
+                $.ajax({
+                    type:'POST',
+                    url:"<?=PATH_AJAX ?>unitesAjax.php",
+                    data:'name='+e.term,
+                    dataType:"json",
+                    async:true,
+                    cache:true,
+                    success:function(e){
+                        if(e.length){   
+                            t($.map(e, function (item){
+                                return{
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                };
+                            }));  
                         }
-                    });
-                }
+                        $('#uniteLoading').attr('style','display:none;');
+                    }
+                });
             },
             select: function(event, ui) {
                 $('form input[name="uniteHidden"]').val(ui.item ? ui.item.id : '');

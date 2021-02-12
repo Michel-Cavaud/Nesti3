@@ -23,27 +23,27 @@ if (isset($_POST) & !empty($_POST)){
     
     extract($data);  
       
-      
-   $recette = new Recettes();
-   $recette->setId($idNew);
-   
-   $ingredient = new Ingredients();
-   $ingredient->setId($idProduit);
-   
-   
-   $ingredientRecette = new IngredientsRecettes();
-   $ingredientRecette->setRecette($recette);
-   $ingredientRecette->setIngredient($ingredient);
-   
-   
-   $ingredientRecetteModel = new IngredientRecetteModel;
-   $ingredientRecetteModel->delete($ingredientRecette);
-   
-   $ligne = $ingredientRecetteModel->selectPourRecette($ingredientRecette);
+    //var_dump($idNew);
+    //var_dump($idProduit);
+    
+    $recette = new Recettes();
+    $recette->setId($idNew);
+    $ingredient = new Ingredients();
+    $ingredient->setId($idProduit);
+    $ingredientRecette = new IngredientsRecettes();
+    $ingredientRecette->setRecette($recette);
+    $ingredientRecette->setIngredient($ingredient);
+
+    $ingredientRecetteModel = new IngredientRecetteModel;
+    $ingredientRecetteModel->delete($ingredientRecette);
+
+    
+    
+    $ligne = $ingredientRecetteModel->selectPourRecette($ingredientRecette);
     $listeRetour = [];
     foreach ($ligne as $value) {
         $listeRetour[] = array( 'nom' => $value->getQuantite() . ' ' . $value->getUniteMesure()->getNom() 
-                . ' de ' . $value->getIngredient()->getNom(), 'bouton' => $value->getOrdre());
+                . ' de ' . $value->getIngredient()->getNom(), 'bouton' => $value->getIngredient()->getId());
 
     }
     

@@ -49,7 +49,7 @@ class IngredientRecetteModel {
             
             
         } catch(PDOExecption $e) {
-            $flag = $false;
+            $flag = false;
         } 
         
         return $flag;
@@ -98,12 +98,13 @@ class IngredientRecetteModel {
         $pdo = Database::getPdo();
         
         $sql = "DELETE FROM `ingredients_recettes` WHERE `ingredients_recettes`.`id_produits` = :idProduit AND `ingredients_recettes`.`id_recettes` = :idRecette ";
+        
+        //var_dump($sql);
          try {     
             $pdo->beginTransaction();
             $sth = $pdo->prepare($sql);
             $resultat = $sth->execute(array('idRecette' => $ingredientRecette->getRecette()->getId(), 'idProduit' => $ingredientRecette->getIngredient()->getId()));
             $pdo->commit();
-            
             
         } catch(PDOExecption $e) {
            

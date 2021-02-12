@@ -217,6 +217,13 @@ input {
     width: 100%;
     height: 70px;
 }
+.erreurLogin {
+    background-color: var(--danger);
+    width: 100%;
+    height: 70px;
+    color : var( --classicColor3);
+    font-size: 1.3rem;
+}
 
 @media (max-width: 1200px) {
     body {

@@ -4,7 +4,7 @@
 if(in_array($loc, $arrayLoc) & $action ==""){
    $files = PATH_VIEW . $loc .  'content.php'; 
 }else if(in_array($loc, $arrayLoc) & in_array($action, $arrayAction)){
-    if($action == "deconnexion"){
+    if($action == "deconnexion" | $action == "erreur"){
         $files = PATH_VIEW . 'logincontent.php';
     }else{
         if($loc == 'recettes' & $action == 'supprimer'){

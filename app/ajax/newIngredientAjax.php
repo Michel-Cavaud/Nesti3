@@ -67,7 +67,7 @@ if (isset($_POST) & !empty($_POST)){
        
        foreach ($ligne as $value) {
            $listeRetour[] = array( 'nom' => $value->getQuantite() . ' ' . $value->getUniteMesure()->getNom() 
-                   . ' de ' . $value->getIngredient()->getNom(), 'bouton' => $value->getOrdre());
+                   . ' de ' . $value->getIngredient()->getNom(), 'bouton' => $value->getIngredient()->getId());
            
        }
    }
