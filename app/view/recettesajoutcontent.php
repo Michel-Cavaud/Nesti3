@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row d-flex justify-content-center m-0">
             <div class="col-lg-11 col-md-12 ">
-                <form action="" method="POST" id="recette">
+<form action="" method="POST" id="recette">
                     <div class="row justify-content-between">
                         <div class="col-6">
                             <h1>Création d'une recette</h1>
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                </form>
+</form>
                 
                         <div class="col-5">
                             <img id="preview" src="<?=PATH_IMAGES . 'vide.png'?>" alt="Image vide" class="img-fluid">
@@ -294,7 +294,6 @@
                 url: "<?=PATH_AJAX ?>supIngredientAjax.php" ,
                 type: "POST",
                 data: {data : JSON.stringify({"idProduit" : id, "idNew" : <?= $data['idNew'] ?>})},
-              
                 dataType:"json",
 
                 success: function(data){
@@ -327,8 +326,15 @@
                     processData:false,
 
                     success: function(data){
-                       $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
-                       $("#form")[0].reset();
+                        if(data[0] == '!'){
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png' + data);
+                            $("#formImage")[0].reset();
+                        }else{
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
+                            $("#formImage")[0].reset();   
+                        }
+                        
+                       
                     }
                 });
             }

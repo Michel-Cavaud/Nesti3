@@ -59,8 +59,8 @@
                                 </div>
                                 <div class="col-sm-4 text-right">
                                      <button type="button" class="btn btnCorbeille">
-                                    <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                </button>
+                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
+                                    </button>
                                 </div>
                             </div>
                             <div class="form-group row justify-content-between mt-4">

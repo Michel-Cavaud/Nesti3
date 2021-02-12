@@ -28,7 +28,29 @@ class ImageModel {
         } catch(PDOExecption $e) {
             $pdo->rollback();
         }
-       
+    }
+    
+     public function readOne($recette){
         
+        $pdo = Database::getPdo();
+    
+        $sql = "SELECT 	nom_images as nom, extension_images as ext FROM images WHERE id_images = :id";
+        
+        $sth = $pdo->prepare($sql);
+        $resultat = $sth->execute(array('id' => $recette->getImage()->getId()));
+
+        if($resultat){
+            $data = $sth->fetch();
+            $image = new Images();
+            $image->setId($recette->getId());
+            $image->setNom($data['nom']);
+            $image->setExtension($data['ext']);
+            $recette->setImage($image);  
+            return $recette;
+               
+        }
+        else{
+            return false;
+        }   
     }
 }

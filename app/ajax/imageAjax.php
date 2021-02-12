@@ -6,14 +6,14 @@ include_once '../config/config.php';
 include_once '../model/ImageModel.php';
 include_once '../model/Database.php';
 include_once '../entite/Images.php';
-
-if (isset($_FILES) & !empty($FILES)){
+//var_dump($_FILES);
+if (isset($_FILES) & !empty($_FILES)){
     $modelImage = new ImageModel();
     
     $valid_extensions = array('jpeg', 'jpg', 'png');
     $path = PATH_IMAGES_UPLOAD; 
 
-    //var_dump($_FILES);
+    
     
     $img = $_FILES['image']['name'];
     $tmp = $_FILES['image']['tmp_name'];

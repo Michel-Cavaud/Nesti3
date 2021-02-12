@@ -1,6 +1,9 @@
 <?php
 
 $modelRecette = new RecetteModel();
+$modelImage = new ImageModel();
+$modelIngredient = new IngredientRecetteModel();
+
  $data['recette'] = new Recettes();
  $data['recette']->setDifficulte(0);
  //$data['recette']->setNom('');
@@ -11,8 +14,6 @@ $modelRecette = new RecetteModel();
  $data['messageInsert']= "";
  
  $data['actifHaut'] = "";
- 
-
  
 if (isset($_POST['ok'])){
     extract($_POST);
@@ -61,7 +62,7 @@ if($action == ""){
             $data = ajout($data, $idNew);
             break;
         case 'edition':
-            $data = edition($data, $modelRecette, $id);
+            $data = edition($data, $modelRecette, $modelImage, $modelIngredient, $id);
             break;
         case 'supprimer':
             $data = supprimer($data, $modelRecette);
@@ -72,13 +73,53 @@ if($action == ""){
 }
 $data['btnNavActifRecettes'] = "btnnavActif";
 
-function edition($data, $modelRecette, $id){
+function edition($data, $modelRecette, $modelImage, $modelIngredient, $id){
     $data['chemin'] = "Recettes";
     $data['cheminRole'] = "recettes";
     $data['chemin2'] = "> Recette";
+    $recette = $modelRecette->readOne($id);
     
-    $data['recette'] = $modelRecette->readOne($id)[0];
+    $data['idNew'] = $id;
+    if($recette->getImage()->getId() != null){
+        $recette = $modelImage->readOne($recette);
+        
+    }
+   
+    if($recette->getImage()->getNom() != "" & $recette->getImage()->getExtension() != ""){
+        
+        $source =  $recette->getImage()->getNom() . "." . $recette->getImage()->getExtension();
+        
+        if(file_exists(PATH_IMAGES_UPLOAD . $source)){
+            $data['srcImage'] = PATH_IMAGES . '/upload/' . $source;
+            $data['urlImage'] = $source;
+            $data['invisible'] = '';
+        }else{
+            $data['srcImage'] = PATH_IMAGES . 'vide.png';
+            $data['urlImage'] = '';
+            $data['invisible'] = 'invisible';
+        }
+    }else{
+        $data['srcImage'] = PATH_IMAGES . 'vide.png';
+        $data['urlImage'] = '';
+        $data['invisible'] = 'invisible';
+    }
     
+    $ingredientRecette = new IngredientsRecettes();
+    $ingredientRecette->setRecette($recette);
+   
+    $listeIngredient = $modelIngredient->selectPourRecette($ingredientRecette);
+   
+    $html = "";
+    foreach ($listeIngredient as $value) {
+        
+        $html .="<div class='row justify-content-between'><div class='col-8'>" . $value->getQuantite() . ' ' . $value->getUniteMesure()->getNom() 
+                   . ' de ' . $value->getIngredient()->getNom() ;
+        $html .= "</div> <div class='col-4'><button type='button' data-id='" . $value->getIngredient()->getId();
+        $html .= "' class='btn btn-link p-0 m-0'>Supprimer</button></div></div> ";
+    }
+    $data['listeIngredient'] = $html;
+    
+    $data['recette'] = $recette;
     return $data;
 }
 

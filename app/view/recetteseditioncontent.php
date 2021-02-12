@@ -10,7 +10,7 @@
                             <div class="form-group">
                                 <label for="nomRecette">Nom de la recette</label>
                                 <input type="text" class="form-control rounded p-3" id="nomRecette" nom="nomRecette" value="<?= $data['recette']->getNom(); ?>">
-                                <small class="form-text">Auteur de la recette : Cyril Lignac</small>
+                                <small class="form-text">Auteur de la recette : <?= $data['recette']->getChef()->getNom(); ?></small>
                             </div>
 
                         
@@ -53,24 +53,35 @@
                                 <div class="col-sm-3">
                                    <button type="button" class="btn btn-lg pl-5 pr-5 btnAnnuler">Annuler</button>
                                 </div>
+</form>
                             </div>
                         </div>
                         <div class="col-5">
-                            <img src="<?=PATH_IMAGES . 'vide.png'?>" alt="Image vide" class="img-fluid">
-                            <div class="mt-3">Télecharger une nouvelle image</div>
-                            
+                            <img  id="preview" src="<?=$data['srcImage'] ?>" alt="Image vide" class="img-fluid">
+<form id="formImage" action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew" id="idNews">
+                            <div class="form-group row justify-content-between mt-4">
+                                <div class="col-sm-8">
+                                    <div class="border-0" id="urlImage" name="urlImage" ><?=  $data['urlImage'] ?></div>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                     <button type="button" id="btnCorbeille"  class="btn btnCorbeille <?= $data['invisible'] ?>">
+                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
+                                    </button>
+                                </div>
+                            </div>
                             <div class="form-group row justify-content-between">
-                               
+                               <div class="mt-3">Télecharger une nouvelle image</div>
                                 <div class="col-sm-8">
                                     <input type="file" class="form-control-file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="button" class="btn  btn-lg btnOK">OK</button>
+                                    <button type="submit" class="btn  btn-lg btnOK">OK</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+</form>
             </div>
         </div>
      </div>
@@ -176,27 +187,46 @@
                     </div>
 
                     <div class="col-3">
-                        <div class="articlesngredients p-3">
-                               <div class="row">
-                                   <div class='col-6'>250g de chocolat</div>
-                                   <div class='col-6 text-right'><button type="button" class="btn btn-link p-0 m-0">Supprimer</button></div>
-                                </div>      
-                            </div>
+                      
+                        <div class="articlesingredients p-3">
+                               <?= $data['listeIngredient'] ?></div>
+ <form action="" method="POST" id="ingredients">
                         <div class="form-group">
                             <label class="col-form-label col-form-label-lg" for="ingredient">Ajouter un ingrédient</label>
-                            <input class="form-control form-control-lg preparation" type="text"  >
+                            <span id="ingredientsContainer">
+                                <span id="loading" style="display: none;" class="spinner-border text-warning" role="status">
+                                     <span class="sr-only">Loading...</span>
+                                </span>
+                                <input name="inputIngredient" id="inputIngredient" class="form-control form-control-lg preparation" type="text"> 
+                            </span>
+                           
                         </div>
-                        <div class="row justify-content-between">
+
+                         <input name="ingredientHidden" id="ingredient-hidden"  type="hidden" />
+                         <input name="uniteHidden" id="unite-hidden"  type="hidden" />
+                         <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew">
+                        <div class="row justify-content-between" >
                             <div class="col-sm-5">
-                                <input class="form-control form-control-lg preparation" type="text"  >
+                                <input id="qty" name="qty" class="form-control form-control-lg preparation" type="number" min="1" step="1"  >
                             </div>
-                            <div class="col-sm-3">
-                                <input class="form-control form-control-lg preparation" type="text" >
+                            <div class="col-sm-4 form-group">
+                                <span id="unitesContainer">
+                                    <span id="uniteLoading" style="display: none;" class="spinner-border text-warning" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </span>
+                                    <input name="inputUnite" id="inputUnite" class="form-control form-control-lg preparation" type="text" >
+                                </span>
                             </div>
                             <div class="col-sm-3 text-right">
-                                    <button type="button" class="btn btn-lg btnOK">OK</button>
+                                <button <?php //echo $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
                             </div>
-                        </div>  
+                        </div> 
+                         <div class="row" >
+                             <div class="col-12">
+                                 <p id="erreurDoubleIngredient"></p>
+                             </div>
+                         </div>
+</form>
                     </div>
                     <div class="col-1"></div>
                 </div>
@@ -209,7 +239,198 @@
 </section>
 
 <script>
-    var select = document.querySelector("#difficulte");
-    select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+    $(document).ready(function () {
+        var select = document.querySelector("#difficulte");
+        select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+        
+        $(".btnCorbeille").on('click', (function(e){
+            e.preventDefault();
+            $.ajax({
+                    url: "<?=PATH_AJAX ?>supImageAjax.php",
+                    type: "POST",
+                    data:{data : JSON.stringify({"id" : <?= $data['idNew'] ?>})},
+                   
+
+                    success: function(data){
+                        $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
+                        $("#formImage")[0].reset();
+                        $("#urlImage").text('');
+                        $("#btnCorbeille").addClass("invisible");                  
+                    }
+                });
+            
+        }));
+    
+        $("#formImage").on('submit',(function(e) {
+            e.preventDefault();
+            if($('#image').val() != ""){
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>imageAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+
+                    success: function(data){
+                        if(data[0] == '!'){
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
+                            $("#formImage")[0].reset();
+                           
+                        }else{
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
+                            $("#formImage")[0].reset();
+                            $("#urlImage").text(data);
+                            $("#btnCorbeille").removeClass("invisible");
+                        }
+                    }
+                });
+            }
+        }));   
+            
+
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+        $('.articlesingredients').on('click', '.btn', function(e){
+            var id = $(this).data("id");
+            console.log(id);
+            $.ajax({
+                url: "<?=PATH_AJAX ?>supIngredientAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idProduit" : id, "idNew" : <?= $data['idNew'] ?>})},
+                dataType:"json",
+
+                success: function(data){
+
+                    $('#erreurDoubleIngredient').text(data.erreur);  
+                   // $("#ingredients")[0].reset();
+                    var  html = "";
+                    for (var item in data){
+                        html +="<div class='row justify-content-between'><div class='col-8'>" + data[item].nom ;
+                        html += "</div> <div class='col-4'><button type='button' data-id='" + data[item].bouton;
+                        html += "' class='btn btn-link p-0 m-0'>Supprimer</button></div></div> ";
+                    }
+                    $('.articlesingredients').html(''); 
+                    $('.articlesingredients').html(html);  
+
+                }
+             });
+            
+        });
+        $('#inputIngredient').autocomplete({
+            minLength:1, 
+            delay:200, 
+            scrollHeight:320,
+            appendTo:'#ingredientsContainer',
+            
+            source:function(e,t){
+                $('#loading').attr('style','');
+                $.ajax({
+                    type:'POST',
+                    url:"<?=PATH_AJAX ?>ingredientsAjax.php",
+                    data:'name='+e.term,
+                    dataType:"json",
+                    async:true,
+                    cache:true,
+                    success:function(e){
+                        if(e.length){   
+                            t($.map(e, function (item){
+                                return{
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                };
+                            }));  
+                        }
+                        $('#loading').attr('style','display:none;');
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('form input[name="ingredientHidden"]').val(ui.item ? ui.item.id : '');
+            },
+            open: function() {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function() {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+        
+         $('#inputUnite').autocomplete({
+            minLength:1, 
+            delay:200, 
+            scrollHeight:320,
+            appendTo:'#unitesContainer',
+            
+            source:function(e,t){
+                $('#uniteLoading').attr('style','');
+                $.ajax({
+                    type:'POST',
+                    url:"<?=PATH_AJAX ?>unitesAjax.php",
+                    data:'name='+e.term,
+                    dataType:"json",
+                    async:true,
+                    cache:true,
+                    success:function(e){
+                        if(e.length){   
+                            t($.map(e, function (item){
+                                return{
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                };
+                            }));  
+                        }
+                        $('#uniteLoading').attr('style','display:none;');
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('form input[name="uniteHidden"]').val(ui.item ? ui.item.id : '');
+            },
+            open: function() {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function() {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+        
+        $("#ingredients").on('submit',(function(e) {
+            e.preventDefault();
+            if($('#inputIngredient').val() != "" && $('#inputUnite').val() != "" && $('#qty').val() != "" ){
+                $('#erreurDoubleIngredient').text(''); 
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>newIngredientAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    dataType:"json",
+
+                    success: function(data){
+                        if("erreur" in data){
+                            $('#erreurDoubleIngredient').text(data.erreur);  
+                        }else{
+                            $("#ingredients")[0].reset();
+                            var  html = "";
+                            for (var item in data){
+                                html +="<div class='row justify-content-between'><div class='col-8'>" + data[item].nom ;
+                                html += "</div> <div class='col-4'><button type='button' data-id='" + data[item].bouton;
+                                html += "' class='btn btn-link p-0 m-0'>Supprimer</button></div></div> ";
+                            }
+                            $('.articlesingredients').html(''); 
+                            $('.articlesingredients').html(html);  
+                        }
+                    }
+                });
+            }else{
+                console.log('erreur');
+            }
+        }));
+    });
 </script>
 
