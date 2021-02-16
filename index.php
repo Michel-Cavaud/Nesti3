@@ -1,4 +1,6 @@
 <?php
+require __DIR__.'/vendor/autoload.php';
+
 include_once './app/loader.php';
 
 //echo $loc;
