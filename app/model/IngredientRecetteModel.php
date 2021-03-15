@@ -48,7 +48,7 @@ class IngredientRecetteModel {
             $pdo->commit();
             
             
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $flag = false;
         } 
         
@@ -106,7 +106,7 @@ class IngredientRecetteModel {
             $resultat = $sth->execute(array('idRecette' => $ingredientRecette->getRecette()->getId(), 'idProduit' => $ingredientRecette->getIngredient()->getId()));
             $pdo->commit();
             
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
            
         } 
         

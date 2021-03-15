@@ -28,7 +28,10 @@
                             <div class="form-group">
                                 <label class="col-form-label ml-5" for="identifiant">Identifiant</label>
                                 <div class="input-group">
-                                    <span class="fas fa-2x fa-user  mr-2"></span>
+                                    
+                                     <div class="input-group-prepend">
+        <span class="input-group-text"><span class="fas fa-2x fa-user  mr-2"></span></span>
+      </div>
                                     <input type="text" class="form-control <?= $isValidI ?>" placeholder="Identifiant" id="identifiant" name="identifiant" value="<?= $valI ?>" >
                                     <div class="invalid-feedback">Indiquer votre email ou pseudo</div>
                                 </div>

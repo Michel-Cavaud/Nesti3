@@ -9,7 +9,7 @@
  */
 class Commentaires {
     
-    private $idUtilisateurs;
+    private $idUtilisateur;
     private $idRecettes;
     private $titre;
     private $contenu;
@@ -19,7 +19,7 @@ class Commentaires {
 
     public function __construct($row) {
         $this->idRecettes = $row['id_recette'];
-        $this->idUtilisateurs = $row['id_utilisateurs_1'];
+        $this->idUtilisateur = $row['id_utilisateurs_1'];
         $this->titre = $row['titre_commentaires'];
         $this->contenu = $row['contenu_commentaires'];
         $this->etat = $row['etat_commentaires'];

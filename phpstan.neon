@@ -1,0 +1,9 @@
+parameters:
+	level: max
+	paths:
+		- app
+	bootstrapFiles:
+		- app/config/config.php
+		- app/config/configSQL.php
+
+		

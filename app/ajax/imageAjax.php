@@ -24,12 +24,13 @@ if (isset($_FILES) & !empty($_FILES)){
     if(in_array($ext, $valid_extensions)){ 
         $path = $path.strtolower($img); 
         if(move_uploaded_file($tmp, $path)){
-            echo $img;
+          
             $idNew = $_POST['idNew'];
             $image = new Images();
             $image->setExtension($ext);
             $image->setNom(substr($img, 0, $position));
             $modelImage->insert($image, $idNew);
+            echo $img;
         }else{
             echo "!";
         }

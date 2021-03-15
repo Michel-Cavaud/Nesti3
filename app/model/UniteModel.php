@@ -56,7 +56,7 @@ class UniteModel {
             $id = $pdo->lastInsertId();
             $pdo->commit();
          
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $pdo->rollback();
         }
         return $id;

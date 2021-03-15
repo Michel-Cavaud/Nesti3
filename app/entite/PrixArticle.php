@@ -27,7 +27,7 @@ class PrixArticle {
     }
 
     function getArticles() {
-        return $this->Articles;
+        return $this->articles;
     }
 
     function setId($id): void {

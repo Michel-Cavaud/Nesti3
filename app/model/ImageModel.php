@@ -5,7 +5,7 @@
  *
  * @author michel
  */
-class ImageModel {
+class ImageModel{
     public function insert($image, $idRecette){
         
         $pdo = Database::getPdo();
@@ -25,7 +25,7 @@ class ImageModel {
             $sth->execute(array('idImage' => $id, 'idRecette' => $idRecette));
             $pdo->commit();
          
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $pdo->rollback();
         }
     }

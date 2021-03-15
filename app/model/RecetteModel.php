@@ -98,7 +98,7 @@ class RecetteModel {
             $id = $pdo->lastInsertId();
             $pdo->commit();
          
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $pdo->rollback();
         }
         return $id;
@@ -115,7 +115,7 @@ class RecetteModel {
             $sth->execute(array('id' => $id));;
             $pdo->commit();
          
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $pdo->rollback();
         }
     }

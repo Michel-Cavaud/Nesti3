@@ -286,7 +286,6 @@
                 console.log('erreur');
             }
         }));
-        
         $('.articlesingredients').on('click', '.btn', function(e){
             var id = $(this).data("id");
             console.log(id);

@@ -25,7 +25,7 @@ class LogsUtilisateursModel {
             
             $pdo->commit();
          
-        } catch(PDOExecption $e) {
+        } catch(PDOException $e) {
             $pdo->rollback();
         }
         

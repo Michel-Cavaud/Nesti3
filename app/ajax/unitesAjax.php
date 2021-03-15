@@ -10,7 +10,7 @@ if (isset($_POST) & !empty($_POST)){
    //var_dump($_POST);
     $modelUnite = new UniteModel();
     
-    $unite = new UnitedeMesure();
+    $unite = new UniteDeMesure();
     $unite->setNom($_POST['name']);
     
     $array = $modelUnite->selectRecherche($unite);
