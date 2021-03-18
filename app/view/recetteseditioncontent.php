@@ -1,15 +1,44 @@
-
+<!-- Modal -->
+<div class="modal fade" id="preparationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une préparation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="" method="POST" id="formPreparation">
+              <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew">
+                 <div class="form-group">
+                    <label for="preparationText">Une préparation</label>
+                    <textarea class="form-control" id="preparationText" name="preparationText" rows="3"></textarea>
+                  </div>
+                  <div class="erreur erreurPreparation"></div>
+         
+        
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button> 
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 <section>
     <div class="container-fluid">
         <div class="row d-flex justify-content-center m-0">
             <div class="col-lg-11 col-md-12 ">
                 <form action="" method="POST" id="recette">
+                    <input type='hidden' name='idRecette' value="<?= $data['idNew'] ?>"/>
                     <div class="row justify-content-between">
                         <div class="col-6">
                             <h1>Modification d'une recette</h1>
                             <div class="form-group">
                                 <label for="nomRecette">Nom de la recette</label>
-                                <input type="text" class="form-control rounded p-3" id="nomRecette" nom="nomRecette" value="<?= $data['recette']->getNom(); ?>">
+                                <input type="text" class="form-control rounded p-3" id="nomRecette" name="nomRecette" value="<?= $data['recette']->getNom(); ?>">
                                 <small class="form-text">Auteur de la recette : <?= $data['recette']->getChef()->getNom(); ?></small>
                             </div>
 
@@ -46,7 +75,7 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
+                                    <button type="submit" name="ok" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
                                     
                                 </div>
                                 
@@ -87,7 +116,7 @@
      </div>
 </section>
 
-<section class="mt-5 basRecette">
+<section class="mt-5 basRecette" >
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12 col-md-12 mt-4 mb-5">
@@ -100,75 +129,13 @@
                         <h2>Liste des ingrédients</h2>
                     </div>
                 </div>
-
+<form action="" method="POST" id="preparations">
                 <div class="row justify-content-between">
+                    
                     <div class="col-8">
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                 <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btnCorbeille ml-3 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                 <div>
-                                    <button type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="lesPreparations"><?=  $data['listePreparation'] ?></div>
+                        
+                        
 
                         <div class="row align-items-end">
                             <div class="col-2 text-right">
@@ -176,15 +143,15 @@
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <button type="button" class="btn btnPlus">
+                                    <button type="button" class="btn btnPlus" data-toggle="modal" data-target="#preparationModal">
                                         <img src="<?=PATH_IMAGES . 'icons/grosPlus.png'?>" alt="" class="img-fluid">
                                     </button>
-                                    
-                                    
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
+</form>
 
                     <div class="col-3">
                       
@@ -240,6 +207,89 @@
 
 <script>
     $(document).ready(function () {
+        
+        $('#lesPreparations').on('click' , '.corbeillePrepa' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>supPreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+        
+        $('#lesPreparations').on('click' , '.btnBas' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>descendrePreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+        
+        $('#lesPreparations').on('click' , '.btnHaut' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>monterPreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+         
+        $('#preparationModal').on('hidden.bs.modal', function (e) {
+            $(".erreurPreparation").text("");
+            console.log('ok');
+        })
+        
+         $("#formPreparation").on('submit',(function(e) {
+            
+            e.preventDefault();
+            $(".erreurPreparation").text("");
+            if($('#preparationText').val() != ""){
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>preparationAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+
+                    success: function(data){
+                       $('#preparationModal').modal('hide');
+                       $('#preparationText').val("");
+                       $('#lesPreparations').html(data);
+                       
+                       
+                    }
+                });
+            }else{
+                $(".erreurPreparation").text("Merci d'indiquer votre préparation");
+            }
+       })); 
+        
         var select = document.querySelector("#difficulte");
         select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
         

@@ -1,4 +1,36 @@
 
+
+<!-- Modal -->
+<div class="modal fade" id="preparationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une préparation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="" method="POST" id="formPreparation">
+              <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew">
+                 <div class="form-group">
+                    <label for="preparationText">Une préparation</label>
+                    <textarea class="form-control" id="preparationText" name="preparationText" rows="3"></textarea>
+                  </div>
+                  <div class="erreur erreurPreparation"></div>
+         
+        
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button> 
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <section>
     <div class="container-fluid">
         <div class="row d-flex justify-content-center m-0">
@@ -18,13 +50,14 @@
                             <div class="form-group row justify-content-between">
                                 <label for="difficulte" class="col-sm-6 col-form-label">Difficulté (note sur 5)</label>
                                 <div class="col-sm-3">
-                                    <select <?= $data['actifHaut']?> class="custom-select"id="difficulte" name="difficulte">   
+                                    <select <?= $data['actifHaut']?> class="custom-select"id="difficulte" name="difficulte"
+                                                                     value="<?= $data['recette']->getDifficulte(); ?>">   
                                         <option value=""></option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                        <option  <?php if($data['recette']->getDifficulte() == '1'){echo("selected");}?> value="1">1</option>
+                                        <option <?php if($data['recette']->getDifficulte() == '2'){echo("selected");}?> value="2">2</option>
+                                        <option <?php if($data['recette']->getDifficulte() == '3'){echo("selected");}?> value="3">3</option>
+                                        <option <?php if($data['recette']->getDifficulte() == '4'){echo("selected");}?> value="4">4</option>
+                                        <option <?php if($data['recette']->getDifficulte() == '5'){echo("selected");}?> value="5">5</option>
                                     </select><div class="erreur"><?= $data['difficulteMessage'] ?></div>
                                 </div>
                                 
@@ -36,7 +69,8 @@
                                 <label for="nbPersonne" class="col-sm-6 col-form-label">Nombre de personne</label>
                                 
                                 <div class="col-sm-3">
-                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne"  value="<?= $data['recette']->getNombrePersonne(); ?>">
+                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center"
+                                                                    id="nbPersonne" name="nbPersonne"  value="<?= $data['recette']->getNombrePersonne(); ?>">
                                     <div class="erreur"><?= $data['nbPersonneMessage'] ?></div>
                                 </div>
                             </div>
@@ -45,7 +79,8 @@
                                 <label for="temps" class="col-sm-6 col-form-label">Temps de préparation en minutes</label>
                                 
                                 <div class="col-sm-3">
-                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center" id="temps" name="temps"  value="<?= $data['recette']->getTempsBrut(); ?>">
+                                    <input <?= $data['actifHaut']?> type="number" step="1" min="1" class="form-control rounded text-center" id="temps" name="temps"
+                                                                    value="<?= $data['recette']->getTempsBrut(); ?>">
                                     <div class="erreur"><?= $data['tempsMessage'] ?></div>
                                 </div>
                             </div>
@@ -108,72 +143,9 @@
                 <div class="row justify-content-between">
                     
                     <div class="col-8">
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea <?= $data['actif']?>  class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                 <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/down-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-3 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea <?= $data['actif']?> class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-2 text-right">
-                                 <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnBas ml-2 mt-1 mb-1">
-                                        <img src="<?=PATH_IMAGES . 'icons/up-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                    
-                                </div>
-                                <div>
-                                    <button <?= $data['actif']?> type="button" class="btn btnCorbeille ml-2 mt-2 mb-4">
-                                        <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group pr-3">
-                                    <textarea <?= $data['actif']?> class="form-control p-3 preparation" id="preparation" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="lesPreparations"></div>
+                        
+                        
 
                         <div class="row align-items-end">
                             <div class="col-2 text-right">
@@ -181,32 +153,27 @@
                             </div>
                             <div class="col-9">
                                 <div class="form-group pr-3">
-                                    <button <?= $data['actif']?> type="button" class="btn btnPlus">
+                                    <button <?= $data['actif']?> type="button" class="btn btnPlus" data-toggle="modal" data-target="#preparationModal">
                                         <img src="<?=PATH_IMAGES . 'icons/grosPlus.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>
                             </div>
                         </div>
-                         <div class="form-group row text-center">
-                            <div class="col-12">
-                                <button <?= $data['actif']?> type="submit" name="ok" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
-
-                            </div>
-                         </div>
+                        
                     </div>
 </form>
                     <div class="col-3">
-                        <div class="articlesingredients p-3" <?= $data['actif']?> >
+                        <div class="articlesingredients p-3" >
                                
                         </div>
 <form action="" method="POST" id="ingredients">
-                        <div class="form-group">
+                        <div class="form-group"  >
                             <label class="col-form-label col-form-label-lg" for="ingredient">Ajouter un ingrédient</label>
                             <span id="ingredientsContainer">
                                 <span id="loading" style="display: none;" class="spinner-border text-warning" role="status">
                                      <span class="sr-only">Loading...</span>
                                 </span>
-                                <input name="inputIngredient" id="inputIngredient" class="form-control form-control-lg preparation" type="text"> 
+                                <input  <?= $data['actif']?> name="inputIngredient" id="inputIngredient" class="form-control form-control-lg preparation" type="text"> 
                             </span>
                            
                         </div>
@@ -216,18 +183,18 @@
                          <input type="hidden" value="<?= $data['idNew'] ?>" name="idNew">
                         <div class="row justify-content-between" >
                             <div class="col-sm-5">
-                                <input id="qty" name="qty" class="form-control form-control-lg preparation" type="number" min="1" step="1"  >
+                                <input  <?= $data['actif']?> id="qty" name="qty" class="form-control form-control-lg preparation" type="number" min="1" step="1"  >
                             </div>
                             <div class="col-sm-4 form-group">
                                 <span id="unitesContainer">
                                     <span id="uniteLoading" style="display: none;" class="spinner-border text-warning" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </span>
-                                    <input name="inputUnite" id="inputUnite" class="form-control form-control-lg preparation" type="text" >
+                                    <input  <?= $data['actif']?> name="inputUnite" id="inputUnite" class="form-control form-control-lg preparation" type="text" >
                                 </span>
                             </div>
                             <div class="col-sm-3 text-right">
-                                <button <?php //echo $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
+                                <button <?= $data['actif']?> type="submit" class="btn btn-lg btnOK">OK</button>
                             </div>
                         </div> 
                          <div class="row" >
@@ -250,8 +217,87 @@
 
 <script>
     $(document).ready(function () {
-        var select = document.querySelector("#difficulte");
-        select.selectedIndex = <?= $data['recette']->getDifficulte(); ?>;
+        $('#lesPreparations').on('click' , '.corbeillePrepa' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>supPreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+        
+        $('#lesPreparations').on('click' , '.btnBas' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>descendrePreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+        
+        $('#lesPreparations').on('click' , '.btnHaut' , function(e){
+               var ordre = $(this).data("ordre");
+               var id = "<?= $data['idNew'] ?>";
+               
+               $.ajax({
+                url: "<?=PATH_AJAX ?>monterPreparationAjax.php" ,
+                type: "POST",
+                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+                
+
+                success: function(data){
+                    $('#lesPreparations').html("");
+                    $('#lesPreparations').html(data);
+                }
+             });
+        })
+         
+        $('#preparationModal').on('hidden.bs.modal', function (e) {
+            $(".erreurPreparation").text("");
+            
+        })
+        
+         $("#formPreparation").on('submit',(function(e) {
+            
+            e.preventDefault();
+            $(".erreurPreparation").text("");
+            if($('#preparationText').val() != ""){
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>preparationAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+
+                    success: function(data){
+                       $('#preparationModal').modal('hide');
+                       $('#preparationText').val("");
+                       $('#lesPreparations').html(data);
+                       
+                       
+                    }
+                });
+            }else{
+                $(".erreurPreparation").text("Merci d'indiquer votre préparation");
+            }
+       })); 
         
         $("#ingredients").on('submit',(function(e) {
             e.preventDefault();
@@ -288,7 +334,7 @@
         }));
         $('.articlesingredients').on('click', '.btn', function(e){
             var id = $(this).data("id");
-            console.log(id);
+            
             $.ajax({
                 url: "<?=PATH_AJAX ?>supIngredientAjax.php" ,
                 type: "POST",

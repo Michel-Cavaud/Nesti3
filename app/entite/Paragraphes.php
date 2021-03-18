@@ -15,14 +15,7 @@ class Paragraphes {
     private $idRecettes;
 
 
-    public function __construct($row) {
-        $this->id = $row['id_paragraphes'];
-        $this->contenu = $row['contenu_paragraphes'];
-        $this->ordre  = $row['ordre_paragraphes'];
-        $this->dateCreation = $row['date_creation_paragraphes'];  
-        $this->idRecettes = $row['id_recettes'];
-        
-    }
+    
     function getId() {
         return $this->id;
     }

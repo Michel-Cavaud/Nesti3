@@ -43,15 +43,21 @@ if (isset($_POST['ok'])){
          if(isset($listeErreurs['temps'])){
             $data['tempsMessage'] = $listeErreurs['temps'];
         }
+        $idNew = "";
      }else{
-        $data['actifHaut'] = "disabled='disabled'";
-        $data['actif'] = "";
-        $idNew = $modelRecette->insert($data['recette']);
-        $data['messageInsert'] = "Votre recette a été créé en mode attente. Pour valider votre recette compléter les Ingrédients et les préparations";
-        
+        if(isset($idRecette)){
+            $data['recette']->setId($idRecette);
+            $modelRecette->update($data['recette']);
+        }else{
+            $data['actifHaut'] = "disabled='disabled'";
+            $data['actif'] = "";
+            $idNew = $modelRecette->insert($data['recette']);
+            $data['messageInsert'] = "Votre recette a été créée en mode bloqué. Pour valider votre recette compléter les Ingrédients et les préparations";      
+        }
+       
      }
 }else{
-     $idNew = 1;
+     $idNew = "";
 }
 
 if($action == ""){
@@ -120,6 +126,67 @@ function edition($data, $modelRecette, $modelImage, $modelIngredient, $id){
     $data['listeIngredient'] = $html;
     
     $data['recette'] = $recette;
+    
+    $modelPreparation = new ParagrapheModel();
+    $preparations = $modelPreparation->selectAllRecette($data['idNew']);
+    $i=0;
+    $iMax = count($preparations);
+    $html = "";
+    foreach ($preparations as $preparation) {
+        if($i == 0){
+           
+            $html .= 
+            '<div class="row align-items-end">
+                <div class="col-2 text-right">
+                    <div>
+                        <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                        </button>
+                    </div>';
+        }elseif ($i == $iMax - 1) {
+            $html .= ' <div class="row align-items-end">
+                <div class="col-2 text-right">
+                <div>
+                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                   </button>
+
+               </div>';
+            
+        }else{
+           $html .= ' <div class="row align-items-end">
+               <div class="col-2 text-right">
+                <div>
+                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                   </button>
+
+               </div>
+               <div>
+                   <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                        </button>
+
+               </div> ';
+
+        }
+        $html .=  '<div>
+                        <button  type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnCorbeille corbeillePrepa mb-4">
+                            <img src="' . PATH_IMAGES . 'icons/delete-svg.png' . '" alt="" class="img-fluid">
+                        </button>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group pr-3">
+                        <textarea class="form-control p-3 preparation" rows="3">' . $preparation->contenu_paragraphes . '</textarea>
+                    </div>
+                </div>
+            </div>';
+        $i++;
+        
+    }
+    $data['listePreparation'] = $html;
+    
     return $data;
 }
 

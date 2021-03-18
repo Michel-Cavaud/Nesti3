@@ -15,7 +15,7 @@ class RecetteModel {
         $pdo = Database::getPdo();
         
         $sql = "SELECT r.id_recettes as id, r.nom_recettes as nom, r.difficulte_recettes as difficulte, r.nombre_personne_recettes as nombrePersonne, 
-        r.temps_recettes as temps, u.nom_utilisateurs as nomUtilisateur, c.id_chef as idChef, r.id_images as idImage
+        r.temps_recettes as temps, r.etat_recettes as etat, u.nom_utilisateurs as nomUtilisateur, c.id_chef as idChef, r.id_images as idImage
         FROM recettes as r, utilisateurs as u, chef as c
         WHERE r.id_chef = c.id_chef AND c.id_chef = u.id_utilisateurs AND r.id_recettes = :id";
         
@@ -41,6 +41,7 @@ class RecetteModel {
             $recette->setNombrePersonne($data['nombrePersonne']);
             $recette->setTemps($data['temps']);
             $recette->setChef($chef);
+            $recette->setEtat($data['etat']);
             $recette->setImage($image);
             
             return $recette;  
@@ -54,7 +55,7 @@ class RecetteModel {
         $pdo = Database::getPdo();
         
         $sql = "SELECT r.id_recettes as id, r.nom_recettes as nom, r.difficulte_recettes as difficulte, r.nombre_personne_recettes as nombrePersonne, 
-        r.temps_recettes as temps, u.nom_utilisateurs as nomUtilisateur, c.id_chef as idChef
+        r.temps_recettes as temps, r.etat_recettes as etat, u.nom_utilisateurs as nomUtilisateur, c.id_chef as idChef
         FROM recettes as r, utilisateurs as u, chef as c WHERE r.id_chef = c.id_chef and c.id_chef = u.id_utilisateurs";
         
         $resultat = $pdo->query($sql);
@@ -72,6 +73,7 @@ class RecetteModel {
                 $recette->setDifficulte($data['difficulte']);
                 $recette->setNombrePersonne($data['nombrePersonne']);
                 $recette->setTemps($data['temps']);
+                $recette->setEtat($data['etat']);
                 $recette->setChef($chef);
             
                 array_push ($array, $recette);
@@ -120,5 +122,15 @@ class RecetteModel {
         }
     }
 
+    public function update($recette){
+        $pdo = Database::getPdo();
+        
+        $sql = 'UPDATE `recettes` SET  `nom_recettes` = :nom, '
+            . '`difficulte_recettes` = :difficulte, `nombre_personne_recettes` = :nb, `temps_recettes` = :temps WHERE `recettes`.`id_recettes` = :id';
+        
+        $sth = $pdo->prepare($sql);
+        $sth->execute(array('id' => $recette->getId(), 'nom' => $recette->getNom(), 'difficulte' => $recette->getDifficulte(), 'nb' => $recette->getNombrePersonne(), 'temps' =>$recette->getTempsSQL()));
+         
+    }
     
 }

@@ -123,13 +123,16 @@ input {
     font-weight: bold;
 }
 
-.btnBas {
+.btnBas, .btnHaut {
     background-color: var(--alerte);
+    margin-bottom: 2px;
+    padding: 2px;
 }
 .btnCorbeille {
     background-color: var(--danger);
     color: var(--classicColor4);
     font-weight: bold;
+    padding: 2px;
 }
 .preparation {
     border-radius: 10px;

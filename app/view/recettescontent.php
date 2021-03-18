@@ -69,6 +69,7 @@
                         <th data-field="pour">Pour</th>
                         <th data-field="temps">Temps</th> 
                         <th data-field="chef">Chef</th>
+                        <th data-field="etat">État</th>
                         <th data-field="actions">Actions</th>
                     </tr>
                 </thead>
@@ -83,8 +84,15 @@
                             <td><?=$value->getNombrePersonne()?></td>
                             <td><?=$value->getTemps()?></td>
                             <td><?=$value->getChef()->getNom() ?></td>
+                            <?php if($value->getEtat() == 'a'): ?>
+                                <td>En ligne</td>
+                            <?php elseif ($value->getEtat() == 'b'): ?>
+                                <td>Bloquée</td>
+                            <?php else: ?>
+                                <td>En attente</td>
+                            <?php endif ?>    
                             <td>
-                                
+                            
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/edition/<?=$value->getId() ?>">Modifier</button></br>
                                 
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->getId() ?>">Supprimer</button>
