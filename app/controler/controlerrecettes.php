@@ -71,7 +71,7 @@ if($action == ""){
             $data = edition($data, $modelRecette, $modelImage, $modelIngredient, $id);
             break;
         case 'supprimer':
-            $data = supprimer($data, $modelRecette);
+            $data = supprimer($data, $modelRecette, $id);
             break;
         default:
             break;
@@ -133,42 +133,46 @@ function edition($data, $modelRecette, $modelImage, $modelIngredient, $id){
     $iMax = count($preparations);
     $html = "";
     foreach ($preparations as $preparation) {
-        if($i == 0){
-           
-            $html .= 
-            '<div class="row align-items-end">
-                <div class="col-2 text-right">
+        if($iMax > 1){
+            if($i == 0){
+
+                $html .= 
+                '<div class="row align-items-end">
+                    <div class="col-2 text-right">
+                        <div>
+                            <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                                <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                            </button>
+                        </div>';
+            }elseif ($i == $iMax - 1) {
+                $html .= ' <div class="row align-items-end">
+                    <div class="col-2 text-right">
                     <div>
-                        <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
-                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
-                        </button>
-                    </div>';
-        }elseif ($i == $iMax - 1) {
-            $html .= ' <div class="row align-items-end">
-                <div class="col-2 text-right">
-                <div>
-                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
-                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
-                   </button>
+                       <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                             <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                       </button>
 
-               </div>';
-            
+                   </div>';
+
+            }else{
+               $html .= ' <div class="row align-items-end">
+                   <div class="col-2 text-right">
+                    <div>
+                       <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                             <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                       </button>
+
+                   </div>
+                   <div>
+                       <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                                <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                            </button>
+
+                   </div> ';
+
+            }
         }else{
-           $html .= ' <div class="row align-items-end">
-               <div class="col-2 text-right">
-                <div>
-                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
-                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
-                   </button>
-
-               </div>
-               <div>
-                   <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
-                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
-                        </button>
-
-               </div> ';
-
+            $html .= '<div class="row align-items-end"><div class="col-2 text-right">';
         }
         $html .=  '<div>
                         <button  type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnCorbeille corbeillePrepa mb-4">
@@ -214,11 +218,13 @@ function ajout($data, $idNew){
     return $data;
 }
 
-function supprimer($data, $modelRecette){
+function supprimer($data, $modelRecette, $id){
     $data['chemin'] = "Recettes";
     $data['cheminRole'] = "recettes";
     $data['chemin2'] = "> Recette";
 
+    $modelRecette->delete($id);
+    
     $data['recettes'] = $modelRecette->readAll();
     return $data;
 }

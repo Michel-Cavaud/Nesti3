@@ -1,14 +1,12 @@
 <?php
 
-
-
 /**
  * Description of Recettes
  *
  * @author michel
  */
 class Recettes {
-   
+
     private $id;
     private $dateCreation;
     private $nom;
@@ -20,13 +18,12 @@ class Recettes {
     //private $idImages;
     private $chef;
     private $image;
-    
-    
-    function getChef(){
+
+    function getChef() {
         return $this->chef;
     }
 
-    function getImage(){
+    function getImage() {
         return $this->image;
     }
 
@@ -37,8 +34,6 @@ class Recettes {
     function setImage($image): void {
         $this->image = $image;
     }
-
-
 
     function getId() {
         return $this->id;
@@ -65,19 +60,23 @@ class Recettes {
     }
 
     function getTempsSQL() {
-       
+
         return Fonctions::formatTempsSQL($this->temps);
     }
 
     function getTemps() {
-       
+
         return Fonctions::formatTemps($this->temps);
     }
-     function getTempsBrut() {
-       
+
+    function getTempsBrut() {
+
         return $this->temps;
     }
 
+    function getTempsMn() {
+        return Fonctions::formatTempsMn($this->temps);
+    }
 
     function setId($id): void {
         $this->id = $id;

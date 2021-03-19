@@ -62,14 +62,14 @@
                             <div class="form-group row justify-content-between">
                                 <label for="nbPersonne" class="col-sm-6 col-form-label">Nombre de personne</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne" value="<?= $data['recette']->getNombrePersonne(); ?>">
+                                    <input  type="number" step="1" min="1" class="form-control rounded text-center" id="nbPersonne" name="nbPersonne" value="<?= $data['recette']->getNombrePersonne(); ?>">
                                 </div>
                             </div>
 
                             <div class="form-group row justify-content-between">
                                 <label for="temps" class="col-sm-6 col-form-label">Temps de préparation en minutes</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control rounded text-center" id="temps" name="temps" value="<?= $data['recette']->getTemps(); ?>">
+                                    <input type="number" step="1" min="1" class="form-control rounded text-center" id="temps" name="temps" value="<?= $data['recette']->getTempsMn(); ?>">
                                 </div>
                             </div>
 
@@ -84,6 +84,7 @@
                                 </div>
 </form>
                             </div>
+                            <div class="etatRecette"></div>
                         </div>
                         <div class="col-5">
                             <img  id="preview" src="<?=$data['srcImage'] ?>" alt="Image vide" class="img-fluid">
@@ -208,20 +209,47 @@
 <script>
     $(document).ready(function () {
         
-        $('#lesPreparations').on('click' , '.corbeillePrepa' , function(e){
-               var ordre = $(this).data("ordre");
-               var id = "<?= $data['idNew'] ?>";
-               
-               $.ajax({
-                url: "<?=PATH_AJAX ?>supPreparationAjax.php" ,
+        $('.etatRecette').on('click', '#etatRecetteBtn', function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+             $.ajax({
+                url: "<?=PATH_AJAX ?>changeEtatRecetteAjax.php" ,
                 type: "POST",
-                data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
-                
-
-                success: function(data){
-                    $('#lesPreparations').html("");
-                    $('#lesPreparations').html(data);
+                data: {'id' : id},
+                success: function(html){
+                      verifEtatRecette();
                 }
+            });
+        })
+        
+        verifEtatRecette();
+        function verifEtatRecette(){
+            var id = "<?= $data['idNew'] ?>";
+            $.ajax({
+                url: "<?=PATH_AJAX ?>etatRecetteAjax.php" ,
+                type: "POST",
+                data: {'id' : id},
+                success: function(html){
+                     $('.etatRecette').html(html);
+                }
+            });
+        }
+        
+        $('#lesPreparations').on('click' , '.corbeillePrepa' , function(e){
+            var ordre = $(this).data("ordre");
+            var id = "<?= $data['idNew'] ?>";
+            e.preventDefault();
+             $.ajax({
+                 url: "<?=PATH_AJAX ?>supPreparationAjax.php" ,
+                 type: "POST",
+                 data: {data : JSON.stringify({"idNew" : id, "ordre" : ordre})},
+
+
+                 success: function(data){
+                     $('#lesPreparations').html("");
+                     $('#lesPreparations').html(data);
+                     verifEtatRecette();
+                 }
              });
         })
         
@@ -281,7 +309,7 @@
                        $('#preparationModal').modal('hide');
                        $('#preparationText').val("");
                        $('#lesPreparations').html(data);
-                       
+                       verifEtatRecette();
                        
                     }
                 });
@@ -305,7 +333,8 @@
                         $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
                         $("#formImage")[0].reset();
                         $("#urlImage").text('');
-                        $("#btnCorbeille").addClass("invisible");                  
+                        $("#btnCorbeille").addClass("invisible");    
+                        verifEtatRecette();
                     }
                 });
             
@@ -323,6 +352,7 @@
                     processData:false,
 
                     success: function(data){
+                        verifEtatRecette();
                         if(data[0] == '!'){
                             $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
                             $("#formImage")[0].reset();
@@ -352,7 +382,7 @@
                 dataType:"json",
 
                 success: function(data){
-
+                    verifEtatRecette();
                     $('#erreurDoubleIngredient').text(data.erreur);  
                    // $("#ingredients")[0].reset();
                     var  html = "";
@@ -462,6 +492,7 @@
                     dataType:"json",
 
                     success: function(data){
+                        verifEtatRecette();
                         if("erreur" in data){
                             $('#erreurDoubleIngredient').text(data.erreur);  
                         }else{

@@ -15,7 +15,7 @@
             </div>
             <div class="modalBoutons my-5 text-right" >
                 <button type="button" id="btnSupp" data-role=""  class="btn btn-lg btnValider mr-5">Confirmer</button>
-                <button type="button" class="btn btn-lg btnCorbeille mr-5" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-lg btnAnnuler mr-5" data-dismiss="modal">Annuler</button>
                 
             </div>
         </div>

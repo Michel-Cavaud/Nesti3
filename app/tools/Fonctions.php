@@ -39,6 +39,17 @@ class Fonctions{
         return $timeFinal; 
         
     }
+    
+    public static function formatTempsMn($temps){
+          $arrayTemps = explode(":", $temps);
+        if($arrayTemps[0] == '00'){
+            $retour = $arrayTemps[1];
+        }else{
+            $retour = $arrayTemps[0] * 60 + $arrayTemps[1];
+        }
+
+        return $retour;
+    }
 
     public static function cript($mdp){
         $options = [

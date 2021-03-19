@@ -95,9 +95,7 @@ class ParagrapheModel {
         $sql = 'UPDATE `paragraphes` SET `ordre_paragraphes` = :ordreNew WHERE `id_recettes` = :id AND `ordre_paragraphes` = :ordre';
         $sth = $pdo->prepare($sql);
         
-        
-      
-        
+   
         if($sens == 'haut'){
             $sth->execute(array('id' => $idRecette, 'ordreNew' => "-1", 'ordre' => $ordre));
             $sth->execute(array('id' => $idRecette, 'ordreNew' => $ordre, 'ordre' => $ordre - 1));
@@ -106,12 +104,19 @@ class ParagrapheModel {
         }else{
             $sth->execute(array('id' => $idRecette, 'ordreNew' => "-1", 'ordre' => $ordre));
             $sth->execute(array('id' => $idRecette, 'ordreNew' => $ordre, 'ordre' => $ordre + 1));
-            $sth->execute(array('id' => $idRecette, 'ordreNew' => $ordre + 1, 'ordre' => "-1"));
-            
+            $sth->execute(array('id' => $idRecette, 'ordreNew' => $ordre + 1, 'ordre' => "-1"));          
         }
+    }
+    
+    public function inRecette($id){
+        $pdo = Database::getPdo();
         
+        $sql = "SELECT * FROM paragraphes WHERE id_recettes = :id";
         
+        $sth = $pdo->prepare($sql);
+        $sth->execute(array('id' => $id ));
         
+        return $sth->rowCount();
     }
 
 }

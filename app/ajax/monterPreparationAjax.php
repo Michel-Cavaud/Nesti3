@@ -23,43 +23,46 @@ if (isset($_POST) & !empty($_POST)) {
     $iMax = count($preparations);
     $html = "";
     foreach ($preparations as $preparation) {
-        
-        if($i == 0){
-           
-            $html .= 
-            '<div class="row align-items-end">
-                <div class="col-2 text-right">
+        if($iMax > 1){
+            if($i == 0){
+
+                $html .= 
+                '<div class="row align-items-end">
+                    <div class="col-2 text-right">
+                        <div>
+                            <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                                <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                            </button>
+                        </div>';
+            }elseif ($i == $iMax - 1) {
+                $html .= ' <div class="row align-items-end">
+                    <div class="col-2 text-right">
                     <div>
-                        <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
-                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
-                        </button>
-                    </div>';
-        }elseif ($i == $iMax - 1) {
-            $html .= ' <div class="row align-items-end">
-                <div class="col-2 text-right">
-                <div>
-                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
-                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
-                   </button>
+                       <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                             <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                       </button>
 
-               </div>';
-            
-        }else{
-           $html .= ' <div class="row align-items-end">
-               <div class="col-2 text-right">
-                <div>
-                   <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
-                         <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
-                   </button>
+                   </div>';
 
-               </div>
-               <div>
-                   <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
-                            <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
-                        </button>
+            }else{
+               $html .= ' <div class="row align-items-end">
+                   <div class="col-2 text-right">
+                    <div>
+                       <button type="button"  data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnHaut">
+                             <img src="' . PATH_IMAGES . 'icons/up-svg.png' . '" alt="" class="img-fluid">
+                       </button>
 
-               </div> ';
+                   </div>
+                   <div>
+                       <button type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnBas">
+                                <img src="' . PATH_IMAGES . 'icons/down-svg.png' . '" alt="" class="img-fluid">
+                            </button>
 
+                   </div> ';
+
+            }
+         }else{
+            $html .= '<div class="row align-items-end"><div class="col-2 text-right">';
         }
         $html .=  '<div>
                         <button  type="button" data-ordre="' . $preparation->ordre_paragraphes . '" class="btn btnCorbeille corbeillePrepa mb-4">

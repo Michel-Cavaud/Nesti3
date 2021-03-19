@@ -32,13 +32,24 @@ class IngredientModel {
         
     }
     
-     public function selectCount($ingredient){
+    public function selectCount($ingredient){
         $pdo = Database::getPdo();
         
         $sql = "SELECT * FROM ingredients as i, produits as p WHERE p.id_produits = i.id_produits AND i.id_produits = :id AND p.nom_produits = :nom";
         
         $sth = $pdo->prepare($sql);
         $sth->execute(array('nom' => $ingredient->getNom(), 'id' => $ingredient->getId() ));
+        
+        return $sth->rowCount();
+    }
+    
+    public function inRecette($id){
+        $pdo = Database::getPdo();
+        
+        $sql = "SELECT * FROM ingredients_recettes WHERE id_recettes = :id";
+        
+        $sth = $pdo->prepare($sql);
+        $sth->execute(array('id' => $id ));
         
         return $sth->rowCount();
     }
