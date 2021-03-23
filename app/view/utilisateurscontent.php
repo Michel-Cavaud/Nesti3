@@ -76,19 +76,16 @@
                     foreach ($data['utilisateurs'] as $value) {
                     ?>    
                         <tr>
-                            <td><?=$value->getId()?></td>
-                            <td><?=$value->getNom()?></td>
-                            <td><?=$value->getDifficulte()?></td>
-                            <td><?=$value->getNombrePersonne()?></td>
-                            <td><?=$value->getTemps()?></td>
-                            <td><?=$value->getChef()->getNom() ?></td>
-                            <td>
-                                
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/edition/<?=$value->getId() ?>">Modifier</button></br>
-                                
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->getId() ?>">Supprimer</button>
-                               
-                                
+                            <td><?=$value->id_utilisateurs?></td>
+                            <td><?=$value->nom_utilisateurs?></td>
+                            <td><?=$value->getRole()?></td>
+                            <td><?=$value->dernierlog?></td>
+                          
+                            <td><?=$value->etat_utilisateurs?></td>
+                            
+                            <td>                                
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="utilisateur/edition/<?=$value->id_utilisateurs ?>">Modifier</button></br>                               
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->id_utilisateurs ?>">Supprimer</button>
                             </td>
                         </tr>
                     <?php } ?>

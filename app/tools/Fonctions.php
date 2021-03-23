@@ -64,7 +64,18 @@ class Fonctions{
 
     }
 
+    public static function createPassword($length = 8) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $chars2 ='$@$!%*#?&';
+        $pwd2 = substr(str_shuffle($chars2),0,3);
+        
+        $pwd = substr(str_shuffle($chars),0,$length);
+        $pwd3 = substr(str_shuffle($chars),0,$length);
+        return crypt($pwd, $pwd3) . $pwd2;
+        
+    }
 
+    
 
 
 }

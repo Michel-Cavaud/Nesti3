@@ -16,8 +16,45 @@
         private $dateCreation;
         private $adresse1;
         private $adresse2;
-        private $idVille;
-        
+        private $ville;
+        private $role;
+                
+        function getAdresse1() {
+            return $this->adresse1;
+        }
+
+        function getAdresse2() {
+            return $this->adresse2;
+        }
+
+        function getVille() {
+            return $this->ville;
+        }
+
+        function getRole() {
+            return implode(",", $this->role);
+           
+        }
+         function getRoleArray() {
+            return $this->role;
+           
+        }
+
+        function setAdresse1($adresse1): void {
+            $this->adresse1 = $adresse1;
+        }
+
+        function setAdresse2($adresse2): void {
+            $this->adresse2 = $adresse2;
+        }
+
+        function setVille($ville): void {
+            $this->ville = $ville;
+        }
+
+        function setRole($role): void {
+            $this->role = $role;
+        }
 
         function getId() {
             return $this->id;
@@ -38,9 +75,18 @@
         function getPrenom() {
             return $this->prenom;
         }
+        
+        function getMdpBrut() {
+            return $this->mdp;
+        }
 
         function getMdp() {
-            return $this->mdp;
+            if($this->mdp != ''){
+                return Fonctions::cript($this->mdp);
+            }else{
+                return '';
+            }
+            
         }
 
         function getEtat() {

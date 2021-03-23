@@ -21,9 +21,10 @@ if($action == "deconnexion"){
     $couleur = "";
     
 }
-//var_dump($_POST);
+
 
 if (isset($_POST['ok'])){
+    //var_dump($_POST);
     extract($_POST);
     if ($identifiant == ""){
         $isValidI = "is-invalid";
@@ -37,8 +38,9 @@ if (isset($_POST['ok'])){
         $utilisateursModel = new UtilisateursModel;
         $userConnect = null;
         $users = $utilisateursModel->connexionUser($identifiant);
+        //print_r($users);
         foreach($users as $user){
-            if(Fonctions::deCript($mdp, $user->getMdp())){
+            if(Fonctions::deCript($mdp, $user->getMdpBrut())){
                 $userConnect = $user;
                 break; 
             }
