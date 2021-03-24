@@ -107,4 +107,13 @@ $(document).ready(function () {
             }
         }
     }
+    
+    if($('.mdpAleatoire').length){
+        $('.mdpAleatoire').on('click', function(e) {
+            $('#mdpUtilisateur').val($(this).data('mdp'));
+            mdpVerif();
+        });
+    
+    }   
+    
 });

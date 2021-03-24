@@ -84,7 +84,7 @@
                             <td><?=$value->etat_utilisateurs?></td>
                             
                             <td>                                
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="utilisateur/edition/<?=$value->id_utilisateurs ?>">Modifier</button></br>                               
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="utilisateurs/edition/<?=$value->id_utilisateurs ?>">Modifier</button></br>                               
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->id_utilisateurs ?>">Supprimer</button>
                             </td>
                         </tr>

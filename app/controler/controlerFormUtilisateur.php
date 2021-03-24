@@ -30,25 +30,39 @@ class controlerFormUtilisateur {
         return $this->errors;
     }
 
-    public function __construct() {
-        $this->definitions = [
-            'nomUtilisateur' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => [$this, 'filter_st']
-            ],
-            'prenomUtilisateur' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => [$this, 'filter_st']
-            ],
-            'mdpUtilisateur' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => [$this, 'filter_mdp']
-            ],
-            'emailUtilisateur' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => [$this, 'filter_email']
-            ]
-        ];
+    public function __construct($edition = false) {
+        if($edition){
+            $this->definitions = [
+                'nomUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_st']
+                ],
+                'prenomUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_st']
+                ]
+            ];
+        }else{
+            $this->definitions = [
+                'nomUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_st']
+                ],
+                'prenomUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_st']
+                ],
+                'mdpUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_mdp']
+                ],
+                'emailUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_email']
+                ]
+            ];
+        }
+        print_r($this->definitions);
     }
 
     public function filter() {
@@ -93,7 +107,7 @@ class controlerFormUtilisateur {
         $regex_lowercase = '/[a-z]/';
         $regex_uppercase = '/[A-Z]/';
         $regex_number = '/[0-9]/';
-        $regex_special = '/[$@$!%*#?&./]/';
+        $regex_special = '/[$@$!%*#?&.\/]/';
         if (empty($password)) {
             return '';
         }

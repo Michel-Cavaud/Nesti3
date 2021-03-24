@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row d-flex justify-content-center m-0">
             <div class="col-lg-11 col-md-12 ">
-                <h1>Création d'une utilisateur</h1>
+                <h1>Créer un utilisateur</h1>
             </div>
                 
         </div>
@@ -67,7 +67,8 @@
                             <div class="form-group">
                                 <label for="mdpUtilisateur">Mot de passe</label>
                                 <input type="password" class="form-control rounded p-3" id="mdpUtilisateur" name="mdpUtilisateur" value="<?= $data['utilisateur']->getMdp(); ?>">
-                                   <div class="erreur"><?= $data['mdpUtilisateurMessage'] ?></div>
+                                <div class="erreur"><?= $data['mdpUtilisateurMessage'] ?></div>
+                                <a class="mdpAleatoire" data-mdp="<?=$data['mdpAleatoire'] ?>">Sélectionner le mot de passe aléatoire : <?=$data['mdpAleatoire'] ?></a>
                             </div>
                             
                             <div class="progress">

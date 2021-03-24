@@ -8,39 +8,69 @@ $data['prenomUtilisateurMessage'] = "";
 $data['emailUtilisateurMessage'] = "";
 $data['mdpUtilisateurMessage'] = "";
 
-echo Fonctions::createPassword();
+
 
 if (isset($_POST['ok'])){
-    extract($_POST);
-    $filtre = new controlerFormUtilisateur();
-    $filtre->filter();
+    if (!isset($_POST['idEdition'])){
+        extract($_POST);
+        $filtre = new controlerFormUtilisateur();
+        $filtre->filter();
 
-    $data['utilisateur']->setNom($nomUtilisateur);
-    $data['utilisateur']->setPrenom($prenomUtilisateur);
-    $data['utilisateur']->setRole($roleUtilisateur);
-    $data['utilisateur']->setEtat($etatUtilisateur);
-    $data['utilisateur']->setEmail($emailUtilisateur);
- 
-    if($filtre->hasErrors()) {
-        $listeErreurs = $filtre->errors; 
-        if(isset($listeErreurs['nomUtilisateur'])){
-            $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
-        }
-         if(isset($listeErreurs['prenomUtilisateur'])){
-            $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
-        }
-         if(isset($listeErreurs['emailUtilisateur'])){
-            $data['emailUtilisateurMessage'] = $listeErreurs['emailUtilisateur'];
-        }
-         if(isset($listeErreurs['mdpUtilisateur'])){
-            $data['mdpUtilisateurMessage'] = $listeErreurs['mdpUtilisateur'];
+        $data['utilisateur']->setNom($nomUtilisateur);
+        $data['utilisateur']->setPrenom($prenomUtilisateur);
+        $data['utilisateur']->setRole($roleUtilisateur);
+        $data['utilisateur']->setEtat($etatUtilisateur);
+        $data['utilisateur']->setEmail($emailUtilisateur);
+
+        if($filtre->hasErrors()) {
+            $listeErreurs = $filtre->errors; 
+            if(isset($listeErreurs['nomUtilisateur'])){
+                $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
+            }
+             if(isset($listeErreurs['prenomUtilisateur'])){
+                $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
+            }
+             if(isset($listeErreurs['emailUtilisateur'])){
+                $data['emailUtilisateurMessage'] = $listeErreurs['emailUtilisateur'];
+            }
+             if(isset($listeErreurs['mdpUtilisateur'])){
+                $data['mdpUtilisateurMessage'] = $listeErreurs['mdpUtilisateur'];
+            }
+        }else{
+           $data['utilisateur']->setMdp($mdpUtilisateur);
+           $data['utilisateur']->setPseudo(substr($prenomUtilisateur, 0, 1) . $nomUtilisateur);
+           $modelUtilisateur->insert($data['utilisateur']);
+           $data['utilisateur']->setMdp('');
+           header('Location:' . BASE_URL . 'utilisateurs');
         }
     }else{
-       $data['utilisateur']->setMdp($mdpUtilisateur);
-       $data['utilisateur']->setPseudo(substr($prenomUtilisateur, 0, 1) . $nomUtilisateur);
-       $modelUtilisateur->insert($data['utilisateur']);
-       $data['utilisateur']->setMdp('');
-       header('Location:' . BASE_URL . 'utilisateurs');
+        extract($_POST);
+       
+        $filtre = new controlerFormUtilisateur(true);
+        $filtre->filter();
+
+        $data['utilisateur']->setNom($nomUtilisateur);
+        $data['utilisateur']->setPrenom($prenomUtilisateur);
+        $data['utilisateur']->setRole($roleUtilisateur);
+        $data['utilisateur']->setEtat($etatUtilisateur);
+        if($filtre->hasErrors()) {
+            $listeErreurs = $filtre->errors; 
+            if(isset($listeErreurs['nomUtilisateur'])){
+                $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
+            }
+             if(isset($listeErreurs['prenomUtilisateur'])){
+                $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
+            }
+        }else{
+            
+           $data['utilisateur']->setId($idEdition);
+           $modelUtilisateur->update($data['utilisateur']);
+           //$modelUtilisateur->insert($data['utilisateur']);
+           //$data['utilisateur']->setMdp('');
+           //header('Location:' . BASE_URL . 'utilisateurs');
+           header('Location:' . BASE_URL . 'utilisateurs/edition/' . $idEdition);
+        }
+        
     }
 }
 
@@ -51,6 +81,9 @@ if($action == ""){
         case 'ajout':
             $data = ajout($data);
             break;
+        case 'edition':
+            $data = edition($data, $modelUtilisateur, $id);
+            break;
         case 'supprimer':
             $data = supprimer($data, $modelUtilisateur);
             break;
@@ -60,12 +93,26 @@ if($action == ""){
 }
 $data['btnNavActifUtilisateurs'] = "btnnavActif";
 
+function edition($data, $modelUtilisateur, $id){
+    $data['utilisateur'] = $modelUtilisateur->readOne($id)[0];
 
+    $data['isChef'] = $modelUtilisateur->isChef($data['utilisateur']);
+    
+    $data['isAdmin'] = $modelUtilisateur->isAdmin($data['utilisateur']);
+    $data['isModerateur'] = $modelUtilisateur->isModerateur($data['utilisateur']);
+    
+    $data['chemin'] = "Utilisateurs";
+    $data['cheminRole'] = "utilisateurs";
+    $data['chemin2'] = "> Utilisateur";
+    
+    return $data;
+}
 
 function listUtilisateurs($data, $modelUtilisateur){
     $data['chemin'] = "";
     $data['cheminRole'] = "";
     $data['chemin2'] = "";
+    
     
     $data['utilisateurs'] = $modelUtilisateur->readAll();
     
@@ -108,6 +155,9 @@ function ajout($data){
     $data['chemin'] = "Utilisateurs";
     $data['cheminRole'] = "utilisateurs";
     $data['chemin2'] = "> Utilisateur";
+    
+    $data['mdpAleatoire'] = Fonctions::createPassword();
+    
     return $data;
 }
 
