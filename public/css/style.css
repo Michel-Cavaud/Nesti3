@@ -199,6 +199,10 @@ input {
     color : var(--danger);
     font-size: 0.6rem;
 }
+.erreurGrand{
+    color : var(--danger);
+    font-size: .2rem;
+}
 /*login css*/
 
 .bodylogin {

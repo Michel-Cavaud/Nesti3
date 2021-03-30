@@ -7,71 +7,87 @@ $data['nomUtilisateurMessage'] = "";
 $data['prenomUtilisateurMessage'] = "";
 $data['emailUtilisateurMessage'] = "";
 $data['mdpUtilisateurMessage'] = "";
+ $data['roleUtilisateurMessage'] = "";
+ $data['erreurMessage'] = "";
 
 
+if($_SESSION['moderateur'] || $_SESSION['admin']){
+    if (isset($_POST['ok'])){
+        if (!isset($_POST['idEdition'])){
+            extract($_POST);
+            $filtre = new controlerFormUtilisateur();
+            $filtre->filter();
 
-if (isset($_POST['ok'])){
-    if (!isset($_POST['idEdition'])){
-        extract($_POST);
-        $filtre = new controlerFormUtilisateur();
-        $filtre->filter();
-
-        $data['utilisateur']->setNom($nomUtilisateur);
-        $data['utilisateur']->setPrenom($prenomUtilisateur);
-        $data['utilisateur']->setRole($roleUtilisateur);
-        $data['utilisateur']->setEtat($etatUtilisateur);
-        $data['utilisateur']->setEmail($emailUtilisateur);
-
-        if($filtre->hasErrors()) {
-            $listeErreurs = $filtre->errors; 
-            if(isset($listeErreurs['nomUtilisateur'])){
-                $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
-            }
-             if(isset($listeErreurs['prenomUtilisateur'])){
-                $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
-            }
-             if(isset($listeErreurs['emailUtilisateur'])){
-                $data['emailUtilisateurMessage'] = $listeErreurs['emailUtilisateur'];
-            }
-             if(isset($listeErreurs['mdpUtilisateur'])){
-                $data['mdpUtilisateurMessage'] = $listeErreurs['mdpUtilisateur'];
-            }
-        }else{
-           $data['utilisateur']->setMdp($mdpUtilisateur);
-           $data['utilisateur']->setPseudo(substr($prenomUtilisateur, 0, 1) . $nomUtilisateur);
-           $modelUtilisateur->insert($data['utilisateur']);
-           $data['utilisateur']->setMdp('');
-           header('Location:' . BASE_URL . 'utilisateurs');
-        }
-    }else{
-        extract($_POST);
-       
-        $filtre = new controlerFormUtilisateur(true);
-        $filtre->filter();
-
-        $data['utilisateur']->setNom($nomUtilisateur);
-        $data['utilisateur']->setPrenom($prenomUtilisateur);
-        $data['utilisateur']->setRole($roleUtilisateur);
-        $data['utilisateur']->setEtat($etatUtilisateur);
-        if($filtre->hasErrors()) {
-            $listeErreurs = $filtre->errors; 
-            if(isset($listeErreurs['nomUtilisateur'])){
-                $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
-            }
-             if(isset($listeErreurs['prenomUtilisateur'])){
-                $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
+            if($filtre->hasErrors()) {
+                $listeErreurs = $filtre->errors; 
+                if(isset($listeErreurs['nomUtilisateur'])){
+                    $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
+                }
+                 if(isset($listeErreurs['prenomUtilisateur'])){
+                    $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
+                }
+                 if(isset($listeErreurs['emailUtilisateur'])){
+                    $data['emailUtilisateurMessage'] = $listeErreurs['emailUtilisateur'];
+                }
+                 if(isset($listeErreurs['mdpUtilisateur'])){
+                    $data['mdpUtilisateurMessage'] = $listeErreurs['mdpUtilisateur'];
+                }
+                 if(isset($listeErreurs['roleUtilisateur'])){
+                    $data['roleUtilisateurMessage'] = $listeErreurs['roleUtilisateur'];
+                }
+            }else{
+                $data['utilisateur']->setNom($nomUtilisateur);
+                $data['utilisateur']->setPrenom($prenomUtilisateur);
+                $data['utilisateur']->setRole($roleUtilisateur);
+                $data['utilisateur']->setEtat($etatUtilisateur);
+                $data['utilisateur']->setEmail($emailUtilisateur);
+               $data['utilisateur']->setMdp($mdpUtilisateur);
+               $data['utilisateur']->setPseudo(substr($prenomUtilisateur, 0, 1) . $nomUtilisateur);
+               if($modelUtilisateur->insert($data['utilisateur'])){
+                    $data['utilisateur']->setMdp('');
+                    header('Location:' . BASE_URL . 'utilisateurs');
+               }else{
+                   $data['erreurMessage'] = 'Impossible de créer cet utilisateur avec doublon de pseudo';
+               }
+              
             }
         }else{
+            extract($_POST);
+
+            $filtre = new controlerFormUtilisateur(true);
+            $filtre->filter();
+
             
-           $data['utilisateur']->setId($idEdition);
-           $modelUtilisateur->update($data['utilisateur']);
-           //$modelUtilisateur->insert($data['utilisateur']);
-           //$data['utilisateur']->setMdp('');
-           //header('Location:' . BASE_URL . 'utilisateurs');
-           header('Location:' . BASE_URL . 'utilisateurs/edition/' . $idEdition);
+            if($filtre->hasErrors()) {
+                $listeErreurs = $filtre->errors; 
+                if(isset($listeErreurs['nomUtilisateur'])){
+                    $data['nomUtilisateurMessage'] = $listeErreurs['nomUtilisateur'];
+                }
+                 if(isset($listeErreurs['prenomUtilisateur'])){
+                    $data['prenomUtilisateurMessage'] = $listeErreurs['prenomUtilisateur'];
+                }
+                 if(isset($listeErreurs['roleUtilisateur'])){
+                    $data['roleUtilisateurMessage'] = $listeErreurs['roleUtilisateur'];
+                }
+            }else{
+                $data['utilisateur']->setNom($nomUtilisateur);
+                $data['utilisateur']->setPrenom($prenomUtilisateur);
+                $data['utilisateur']->setRole($roleUtilisateur);
+                $data['utilisateur']->setEtat($etatUtilisateur);
+                $data['utilisateur']->setId($idEdition);
+               
+               if($modelUtilisateur->update($data['utilisateur'])){
+                   header('Location:' . BASE_URL . 'utilisateurs/edition/' . $idEdition);
+               }else{
+                   $data['erreurMessage'] = 'Impossible de mettre à jour cet utilisateur';
+               }
+            }
+
         }
-        
     }
+}else{
+     header('Location:' . BASE_URL . 'acces/interdit');
+    
 }
 
 if($action == ""){
@@ -85,7 +101,7 @@ if($action == ""){
             $data = edition($data, $modelUtilisateur, $id);
             break;
         case 'supprimer':
-            $data = supprimer($data, $modelUtilisateur);
+            $data = supprimer($data, $modelUtilisateur, $id);
             break;
         default:
             break;
@@ -112,12 +128,36 @@ function listUtilisateurs($data, $modelUtilisateur){
     $data['chemin'] = "";
     $data['cheminRole'] = "";
     $data['chemin2'] = "";
+
+    $data['utilisateurs'] = ajoutDesRoles($modelUtilisateur->readAll(), $modelUtilisateur);
+ 
+    return $data;
+}
+
+function ajout($data){
+    $data['chemin'] = "Utilisateurs";
+    $data['cheminRole'] = "utilisateurs";
+    $data['chemin2'] = "> Utilisateur";
     
+    $data['mdpAleatoire'] = Fonctions::createPassword();
     
-    $data['utilisateurs'] = $modelUtilisateur->readAll();
+    return $data;
+}
+
+function supprimer($data, $modelUtilisateur, $id){
+    $data['chemin'] = "Utilisateurs";
+    $data['cheminRole'] = "utilisateurs";
+    $data['chemin2'] = "> Utilisateur";
+
+    $modelUtilisateur->delete($id);
     
+    $data['utilisateurs'] = ajoutDesRoles($modelUtilisateur->readAll(), $modelUtilisateur);
+    return $data;
+}
+
+function ajoutDesRoles($data, $modelUtilisateur){
     $modelLog = new LogsUtilisateursModel();
-    foreach ($data['utilisateurs']  as $utilisateur) {
+    foreach ($data  as $utilisateur) {
         //date dernière connexion
         $utilisateur->dernierlog = $modelLog->selectOne($utilisateur);
         
@@ -145,27 +185,6 @@ function listUtilisateurs($data, $modelUtilisateur){
             array_push ($role, 'Utilisateur');
         }
         $utilisateur->setRole($role);
-        
     }
-    
-    return $data;
-}
-
-function ajout($data){
-    $data['chemin'] = "Utilisateurs";
-    $data['cheminRole'] = "utilisateurs";
-    $data['chemin2'] = "> Utilisateur";
-    
-    $data['mdpAleatoire'] = Fonctions::createPassword();
-    
-    return $data;
-}
-
-function supprimer($data, $modelUtilisateur){
-    $data['chemin'] = "Utilisateurs";
-    $data['cheminRole'] = "utilisateurs";
-    $data['chemin2'] = "> Utilisateur";
-
-    $data['utilisateurs'] = $modelUtilisateur->readAll();
     return $data;
 }

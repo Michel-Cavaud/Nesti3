@@ -34,8 +34,7 @@ function listArticles($data, $modelArticle){
     $data['chemin2'] = "";
     
     $data['article'] = $modelArticle->readAll();
-    
-    
+  
     return $data;
 }
 

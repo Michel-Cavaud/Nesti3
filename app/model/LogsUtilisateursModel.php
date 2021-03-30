@@ -21,7 +21,7 @@ class LogsUtilisateursModel {
        try {
            $pdo->beginTransaction();
            $sth = $pdo->prepare($sql);
-           $sth->execute(array('id' => $utilisateur->getId()));
+           $sth->execute(array('id' => $utilisateur->id_utilisateurs));
 
            $pdo->commit();
 

@@ -15,49 +15,54 @@ $modelIngredient = new IngredientRecetteModel();
  
  $data['actifHaut'] = "";
  
-if (isset($_POST['ok'])){
-    extract($_POST);
-    $filtre = new controlerFormRecette();
-    $filtre->filter();
-    //var_dump($_POST);
-    $data['recette']->setNom($nomRecette);
-    $data['recette']->setDifficulte($difficulte);
-    $data['recette']->setNombrePersonne($nbPersonne);
-    $data['recette']->setTemps($temps);
-    $data['recette']->setEtat("w");
-    $chef = new Chef();
-    $chef->setId($_SESSION['idUser']);
-    $data['recette']->setChef($chef);
-    
-    if($filtre->hasErrors()) {
-        $listeErreurs = $filtre->errors; 
-        if(isset($listeErreurs['nomRecette'])){
-            $data['nomRecetteMessage'] = $listeErreurs['nomRecette'];
-        }
-         if(isset($listeErreurs['difficulte'])){
-            $data['difficulteMessage'] = $listeErreurs['difficulte'];
-        }
-         if(isset($listeErreurs['nbPersonne'])){
-            $data['nbPersonneMessage'] = $listeErreurs['nbPersonne'];
-        }
-         if(isset($listeErreurs['temps'])){
-            $data['tempsMessage'] = $listeErreurs['temps'];
-        }
-        $idNew = "";
-     }else{
-        if(isset($idRecette)){
-            $data['recette']->setId($idRecette);
-            $modelRecette->update($data['recette']);
-        }else{
-            $data['actifHaut'] = "disabled='disabled'";
-            $data['actif'] = "";
-            $idNew = $modelRecette->insert($data['recette']);
-            $data['messageInsert'] = "Votre recette a été créée en mode bloqué. Pour valider votre recette compléter les Ingrédients et les préparations";      
-        }
-       
-     }
+if($_SESSION['chef'] || $_SESSION['admin']){
+    if (isset($_POST['ok'])){
+        extract($_POST);
+        $filtre = new controlerFormRecette();
+        $filtre->filter();
+        //var_dump($_POST);
+        $data['recette']->setNom($nomRecette);
+        $data['recette']->setDifficulte($difficulte);
+        $data['recette']->setNombrePersonne($nbPersonne);
+        $data['recette']->setTemps($temps);
+        $data['recette']->setEtat("w");
+        $chef = new Chef();
+        $chef->setId($_SESSION['idUser']);
+        $data['recette']->setChef($chef);
+
+        if($filtre->hasErrors()) {
+            $listeErreurs = $filtre->errors; 
+            if(isset($listeErreurs['nomRecette'])){
+                $data['nomRecetteMessage'] = $listeErreurs['nomRecette'];
+            }
+             if(isset($listeErreurs['difficulte'])){
+                $data['difficulteMessage'] = $listeErreurs['difficulte'];
+            }
+             if(isset($listeErreurs['nbPersonne'])){
+                $data['nbPersonneMessage'] = $listeErreurs['nbPersonne'];
+            }
+             if(isset($listeErreurs['temps'])){
+                $data['tempsMessage'] = $listeErreurs['temps'];
+            }
+            $idNew = "";
+         }else{
+            if(isset($idRecette)){
+                $data['recette']->setId($idRecette);
+                $modelRecette->update($data['recette']);
+            }else{
+                $data['actifHaut'] = "disabled='disabled'";
+                $data['actif'] = "";
+                $idNew = $modelRecette->insert($data['recette']);
+                $data['messageInsert'] = "Votre recette a été créée en mode bloqué. Pour valider votre recette compléter les Ingrédients et les préparations";      
+            }
+
+         }
+    }else{
+         $idNew = "";
+    }
 }else{
-     $idNew = "";
+     header('Location:' . BASE_URL . 'acces/interdit');
+    
 }
 
 if($action == ""){
@@ -65,13 +70,25 @@ if($action == ""){
 }else{
     switch ($action) {
         case 'ajout':
-            $data = ajout($data, $idNew);
+            if($_SESSION['chef']){
+                $data = ajout($data, $idNew);
+            }else{
+                header('Location:' . BASE_URL . 'acces/interdit');
+            }
             break;
         case 'edition':
-            $data = edition($data, $modelRecette, $modelImage, $modelIngredient, $id);
+            if($_SESSION['chef']){
+                $data = edition($data, $modelRecette, $modelImage, $modelIngredient, $id);
+            }else{
+                header('Location:' . BASE_URL . 'acces/interdit');
+            }
             break;
         case 'supprimer':
-            $data = supprimer($data, $modelRecette, $id);
+             if($_SESSION['chef']){
+                 $data = supprimer($data, $modelRecette, $id);
+            }else{
+                header('Location:' . BASE_URL . 'acces/interdit');
+            }
             break;
         default:
             break;

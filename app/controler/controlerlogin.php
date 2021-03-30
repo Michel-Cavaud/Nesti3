@@ -4,6 +4,8 @@ $isValidI = "";
 $isValidMdp = "";
 $valI = "";
 
+
+
 if($action == "deconnexion"){
     $messageConnexion = "Déconnexion réussi";
     $couleur = "disabled";
@@ -24,7 +26,7 @@ if($action == "deconnexion"){
 
 
 if (isset($_POST['ok'])){
-    //var_dump($_POST);
+    var_dump($_POST);
     extract($_POST);
     if ($identifiant == ""){
         $isValidI = "is-invalid";
@@ -38,25 +40,33 @@ if (isset($_POST['ok'])){
         $utilisateursModel = new UtilisateursModel;
         $userConnect = null;
         $users = $utilisateursModel->connexionUser($identifiant);
-        //print_r($users);
+        print_r($users);
         foreach($users as $user){
-            if(Fonctions::deCript($mdp, $user->getMdpBrut())){
+            if(Fonctions::deCript($mdp, $user->mdp_utilisateurs)){
                 $userConnect = $user;
                 break; 
             }
         }
         
         if($userConnect != null){
-            $maSession->connectUser($userConnect->getId(), $userConnect->getNom(), $userConnect->getPrenom());
-            
-            $utilisateur = new Utilisateurs();
-            $utilisateur->setId($userConnect->getId());
+            $maSession->connectUser($userConnect);
             $logsUtilisateur = new LogsUtilisateursModel();
-            $logsUtilisateur->insert($utilisateur);
-            
-            header('Location:' . BASE_URL);
+            $logsUtilisateur->insert($userConnect);
+            //print_r($_SESSION);
+            if($_SESSION['chef']){
+                header('Location:' . BASE_URL);
+            }
+            elseif($_SESSION['admin']){
+                 header('Location:' . BASE_URL . 'statistiques');
+            }
+            elseif($_SESSION['moderateur']){
+                 header('Location:' . BASE_URL . 'utilisateurs');
+            }else{
+                $maSession->disconnectUser();
+                header('Location:' . BASE_URL . 'login/erreur');
+            }
         }else{
-          
+           $maSession->disconnectUser();
             header('Location:' . BASE_URL . 'login/erreur');
         }
     }

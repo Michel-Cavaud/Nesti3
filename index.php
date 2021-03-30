@@ -18,8 +18,8 @@ $data = array(
     'btnNavActifStatistiques' => '',
 );
 
-$arrayLoc = array('login', 'recettes', 'articles', 'utilisateurs', 'statistiques');
-$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer', 'importer', 'erreur');
+$arrayLoc = array('login', 'recettes', 'articles', 'utilisateurs', 'statistiques', 'acces');
+$arrayAction = array('ajout', 'edition', 'commandes', 'importation', 'deconnexion', 'supprimer', 'importer', 'erreur', 'interdit');
 if(in_array($loc, $arrayLoc)){
    include_once PATH_CTRL . 'controler' . $loc . '.php'; 
 }

@@ -17,9 +17,44 @@ class Articles {
     private $produits;
     private $uniteMesure;
     private $images;
+    private $prix;
+    private $stock;
+    private $dateImport;
+    private $type;
     
-    
-    function getUniteMesure() {
+    function getType() {
+        return $this->type;
+    }
+
+    function setType($type): void {
+        $this->type = $type;
+    }
+
+        function getDateImport() {
+        return $this->dateImport;
+    }
+
+    function setDateImport($dateImport): void {
+        $this->dateImport = $dateImport;
+    }
+
+        function getStock() {
+        return $this->stock;
+    }
+
+    function setStock($stock): void {
+        $this->stock = $stock;
+    }
+
+        function getPrix() {
+        return $this->prix;
+    }
+
+    function setPrix($prix): void {
+        $this->prix = $prix;
+    }
+
+        function getUniteMesure() {
         return $this->uniteMesure;
     }
 

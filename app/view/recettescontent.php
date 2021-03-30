@@ -92,10 +92,10 @@
                                 <td>En attente</td>
                             <?php endif ?>    
                             <td>
-                            
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/edition/<?=$value->getId() ?>">Modifier</button></br>
-                                
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->getId() ?>">Supprimer</button>
+                              
+                                    <button type="button" class="btn btn-link p-0 m-0" data-role="recettes/edition/<?=$value->getId() ?>">Modifier</button></br>
+
+                                    <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal"  data-lien="recettes" data-id="<?=$value->getId() ?>">Supprimer</button>
                                
                                 
                             </td>

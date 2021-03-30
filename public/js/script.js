@@ -7,11 +7,12 @@ $(document).ready(function () {
         if (role != null) {
             if (role == "supprimerModal") {
                 var id = this.dataset.id;
+                var lien = this.dataset.lien;
                 var btnSupp = document.querySelector("#btnSupp");
                 var idSupp = document.querySelector("#idSupp");
 
                 idSupp.textContent = "N° " + id;
-                btnSupp.setAttribute("data-role", "recettes/supprimer/" + id);
+                btnSupp.setAttribute("data-role", lien + "/supprimer/" + id);
                 $("#modalSupp").modal("show");
             } else {
                 document.location.href = BASE_URL + role;

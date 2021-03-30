@@ -15,6 +15,7 @@ class controlerFormUtilisateur {
         'prenomUtilisateur' => "Vous devez renseigner un prénom.",
         'mdpUtilisateur' => "Vous devez renseigner un mot de passe.",
         'emailUtilisateur' => "Vous devez renseigner un email.",
+        'roleUtilisateur' => "Vous devez renseigner un rôle.",
     ];
     private static $ERREURS_ELEMINVALID = [
         'mdpUtilisateur' => "Force du mot de passe trop faible.",
@@ -40,6 +41,10 @@ class controlerFormUtilisateur {
                 'prenomUtilisateur' => [
                     'filter' => FILTER_CALLBACK,
                     'options' => [$this, 'filter_st']
+                ],
+                'roleUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_int']
                 ]
             ];
         }else{
@@ -59,10 +64,14 @@ class controlerFormUtilisateur {
                 'emailUtilisateur' => [
                     'filter' => FILTER_CALLBACK,
                     'options' => [$this, 'filter_email']
+                ],
+                'roleUtilisateur' => [
+                    'filter' => FILTER_CALLBACK,
+                    'options' => [$this, 'filter_int']
                 ]
             ];
         }
-        print_r($this->definitions);
+        //print_r($this->definitions);
     }
 
     public function filter() {
@@ -93,9 +102,12 @@ class controlerFormUtilisateur {
         }else{
           return (empty($reponse_filtre)) ? null : $reponse_filtre;  
         }
-        
+    }
+     private function filter_int($input) {
+        $reponse_filtre = filter_var($input, FILTER_SANITIZE_NUMBER_INT, array("options"=>array("min_range"=>1)));
 
-        
+        return (empty($reponse_filtre))?null:$reponse_filtre;
+
     }
 
     public function hasErrors() {

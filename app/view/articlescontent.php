@@ -82,11 +82,11 @@
                     ?>    
                         <tr>
                             <td><?=$value->getId()?></td>
-                            <td><?=$value->getNom()?></td>
-                            <td><?=$value->getDifficulte()?></td>
-                            <td><?=$value->getNombrePersonne()?></td>
-                            <td><?=$value->getTemps()?></td>
-                            <td><?=$value->getChef()->getNom() ?></td>
+                            <td><?=$value->getQuantite() . ' ' . $value->getUniteMesure()->getNom() . ' de ' . $value->getProduits()->getNom()?></td>
+                            <td><?=$value->getPrix() ?></td>
+                            <td><?= $value->getType() ?></td>
+                            <td><?= $value->getDateImport() ?></td>
+                            <td><?=$value->getStock() ?></td>
                             <td>
                                 
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="articles/edition/<?=$value->getId() ?>">Modifier</button></br>

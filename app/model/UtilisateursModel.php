@@ -13,7 +13,7 @@ class UtilisateursModel {
         $sqlChef = "INSERT INTO `chef` (`id_chef`) VALUES (:id)";
         $sqlAdmin = "INSERT INTO `admin` (`id_admin`) VALUES (:id)";
         $sqlModerateur = "INSERT INTO `moderateurs` (`id_moderateurs`) VALUES (:id)";
-        
+        $flag = false;
         try {
             $pdo->beginTransaction();
             $sth = $pdo->prepare($sql);
@@ -41,10 +41,12 @@ class UtilisateursModel {
                         break;
                 }
             }      
-            $pdo->commit();    
+            $pdo->commit();  
+            $flag = true;
         } catch(PDOException $e) {
             $pdo->rollback();
         }
+        return $flag;
     }
     
     public function update($utilisateur){
@@ -56,6 +58,7 @@ class UtilisateursModel {
         $sqlAdmin = "DELETE FROM `admin` WHERE `admin`.`id_admin` = :id";
         $sqlChef = "DELETE FROM `chef` WHERE `chef`.`id_chef` = :id";
         
+        $flag = false;
         try {
             $pdo->beginTransaction();
             
@@ -72,6 +75,7 @@ class UtilisateursModel {
             $sqlChef = "INSERT INTO `chef` (`id_chef`) VALUES (:id)";
             $sqlAdmin = "INSERT INTO `admin` (`id_admin`) VALUES (:id)";
             $sqlModerateur = "INSERT INTO `moderateurs` (`id_moderateurs`) VALUES (:id)";
+            
             foreach ($utilisateur->getRoleArray() as $role) {
                 switch ($role) {
                     case 1:
@@ -93,17 +97,19 @@ class UtilisateursModel {
                 }
             }      
             
-            $pdo->commit();    
+            $pdo->commit(); 
+            $flag = true;
         } catch(PDOException $e) {
             $pdo->rollback();
         }
+        return $flag;
     }
     
     public function connexionUser($identifiant){
 
         $pdo = Database::getPdo();
 
-        $sql = "SELECT id_utilisateurs as id, mdp_utilisateurs as mdp, nom_utilisateurs as nom, prenom_utilisateurs as prenom FROM utilisateurs WHERE email_utilisateurs = :identifiant OR pseudo_utilisateurs = :identifiant";
+        $sql = "SELECT id_utilisateurs, mdp_utilisateurs, nom_utilisateurs, prenom_utilisateurs FROM utilisateurs WHERE email_utilisateurs = :identifiant OR pseudo_utilisateurs = :identifiant";
 
         $sth = $pdo->prepare($sql);
         $resultat = $sth->execute(array('identifiant' => $identifiant));
@@ -121,7 +127,7 @@ class UtilisateursModel {
         
         $pdo = Database::getPdo();
         
-        $sql = 'SELECT id_utilisateurs, nom_utilisateurs, etat_utilisateurs FROM utilisateurs ';
+        $sql = 'SELECT id_utilisateurs, nom_utilisateurs, prenom_utilisateurs, etat_utilisateurs FROM utilisateurs ';
         
         $sth = $pdo->prepare($sql);
          $resultat = $sth->execute();
@@ -207,6 +213,14 @@ class UtilisateursModel {
             return false;
         }
 
+    }
+    
+    public function delete($id){
+        $pdo = Database::getPdo();
+        
+        $sql = 'UPDATE `utilisateurs` SET `etat_utilisateurs` = "b" WHERE `utilisateurs`.`id_utilisateurs` = :id';
+        $sth = $pdo->prepare($sql);
+        $sth->execute(array('id' => $id));
     }
     
    

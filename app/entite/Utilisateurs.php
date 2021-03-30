@@ -32,7 +32,7 @@
         }
 
         function getRole() {
-            return implode(",", $this->role);
+            return implode(", ", $this->role);
            
         }
          function getRoleArray() {

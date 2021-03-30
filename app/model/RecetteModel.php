@@ -78,8 +78,6 @@ class RecetteModel {
             
                 array_push ($array, $recette);
             }
-        }else{
-            $array;
         }
         return $array;
     }

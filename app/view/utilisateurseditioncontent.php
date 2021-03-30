@@ -26,12 +26,13 @@
                                 
                             <div class="form-group">
                                 <label for="roleUtilisateur">Role</label>
-                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]">    
-                                    <option value="1" selected>Utilisateur</option>
+                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='3'>    
+                                    
                                     <option value="2" <?php if($data['isAdmin']){echo 'selected';} ?>>Administrateur</option>
                                     <option value="3" <?php if($data['isModerateur']){echo 'selected';} ?>>Moderateur</option>
                                     <option value="4" <?php if($data['isChef']){echo 'selected';} ?>>Chef</option>
                                 </select>
+                                <div class="erreur"><?= $data['roleUtilisateurMessage'] ?></div>
                             </div>
 
                             <div class="form-group">
@@ -44,9 +45,12 @@
                                 </select>
                             </div>
 
-                           
+                            <div class="row">
+                                <div class="erreurGrand"><?= $data['erreurMessage'] ?></div>
+                            </div>
 
                             <div class="form-group row">
+                                
                                 <div class="col-sm-3">
                                     <button type="submit" name="ok"  class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
                                     

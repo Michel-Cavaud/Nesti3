@@ -77,7 +77,7 @@
                     ?>    
                         <tr>
                             <td><?=$value->id_utilisateurs?></td>
-                            <td><?=$value->nom_utilisateurs?></td>
+                            <td><?=$value->prenom_utilisateurs . ' ' .$value->nom_utilisateurs?></td>
                             <td><?=$value->getRole()?></td>
                             <td><?=$value->dernierlog?></td>
                           
@@ -85,7 +85,7 @@
                             
                             <td>                                
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="utilisateurs/edition/<?=$value->id_utilisateurs ?>">Modifier</button></br>                               
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->id_utilisateurs ?>">Supprimer</button>
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-lien="utilisateurs" data-id="<?=$value->id_utilisateurs ?>">Supprimer</button>
                             </td>
                         </tr>
                     <?php } ?>

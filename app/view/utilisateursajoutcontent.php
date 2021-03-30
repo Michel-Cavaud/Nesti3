@@ -26,12 +26,12 @@
                                 
                             <div class="form-group">
                                 <label for="roleUtilisateur">Role</label>
-                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]">    
-                                    <option value="1" selected>Utilisateur</option>
+                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='3'>        
                                     <option value="2">Administrateur</option>
                                     <option value="3">Moderateur</option>
                                     <option value="4">Chef</option>
                                 </select>
+                                <div class="erreur"><?= $data['roleUtilisateurMessage'] ?></div>
                             </div>
 
                             <div class="form-group">
@@ -44,7 +44,9 @@
                                 </select>
                             </div>
 
-                           
+                           <div class="row">
+                                <div class="erreurGrand"><?= $data['erreurMessage'] ?></div>
+                            </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-3">
