@@ -26,7 +26,8 @@
                                 
                             <div class="form-group">
                                 <label for="roleUtilisateur">Role</label>
-                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='3'>        
+                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='4'>     
+                                    <option value="1">Utilisateur</option>
                                     <option value="2">Administrateur</option>
                                     <option value="3">Moderateur</option>
                                     <option value="4">Chef</option>

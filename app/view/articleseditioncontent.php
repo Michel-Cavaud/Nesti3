@@ -7,19 +7,22 @@
                         <div class="col-6">
                             <h1>Edition de l'article</h1>
                             <div class="form-group">
-                                <label for="nomArticles">Nom d'usine de l'article</label>
-                                <input type="text" readonly="" class="form-control rounded pt-3" id="nomArticle" nom="nomArticle">
+                                <label for="nomArticle">Nom d'usine de l'article</label>
+                                <input type="text" readonly="" class="form-control rounded pt-3" id="nomArticle" name="nomArticle"
+                                    value="<?=$data['article']->getQuantite() . ' ' . $data['article']->getUniteMesure()->getNom() . ' de ' . 
+                                            $data['article']->getProduits()->getNom()?>">
                             </div>
                              <div class="form-group">
                                 <label for="nomComArticles">Nom de l'article pour l'utilisateur</label>
-                                <input type="text" class="form-control rounded pt-3" id="nomComArticles" nom="nomComArticles">
+                                <input type="text" class="form-control rounded pt-3" id="nomComArticles" name="nomComArticles">
                             </div>
 
                         
                             <div class="form-group row justify-content-between">
                                 <label for="identifiant" class="col-sm-6 col-form-label">Identifiant</label>
                                 <div class="col-sm-3">
-                                    <input type="text" readonly="" class="form-control rounded" id="identifiant" name="identifiant">
+                                    <input type="text" readonly="" class="form-control rounded text-center" id="identifiant" name="identifiant"
+                                           value="<?=$data['article']->getId() ?>">
                                 </div>
                             </div>
                         
@@ -27,14 +30,16 @@
                             <div class="form-group row justify-content-between">
                                 <label for="prixVente" class="col-sm-6 col-form-label">Prix de vente</label>
                                 <div class="col-sm-3">
-                                    <input type="text" readonly="" class="form-control rounded" id="prixVente" name=prixVente">
+                                    <input type="text" readonly="" class="form-control rounded text-center" id="prixVente" name="prixVente"
+                                           value="<?=$data['article']->getPrix() ?>">
                                 </div>
                             </div>
 
                             <div class="form-group row justify-content-between">
                                 <label for="stock" class="col-sm-6 col-form-label">Stock</label>
                                 <div class="col-sm-3">
-                                    <input type="text" readonly="" class="form-control rounded" id="stock" name="stock">
+                                    <input type="text" readonly="" class="form-control rounded text-center" id="stock" name="stock"
+                                           value="<?=$data['article']->getStock() ?>">
                                 </div>
                             </div>
 
@@ -45,20 +50,20 @@
                                 </div>
                                 
                                 <div class="col-sm-3">
-                                   <button type="button" class="btn btn-lg pl-5 pr-5 btnCorbeille">Supprimer</button>
+                                   <button type="reset" class="btn btn-lg pl-5 pr-5 btnAnnuler">Annuler</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-5">
-                            <div clas='row'>
-                                <img src="<?=PATH_IMAGES . 'vide.png'?>" alt="Image vide" class="img-fluid">
+                            <div class='row'>
+                                <img src="<?=$data['srcImage'] ?>" alt="Image vide" class="img-fluid">
                             </div>
                             <div class="form-group row justify-content-between mt-4">
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control border-0" id="urlImage" name="urlImage" value="URL de l'image actuelle">
+                                    <input type="text" class="form-control border-0" id="urlImage" name="urlImage" value="<?=  $data['urlImage'] ?>">
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                     <button type="button" class="btn btnCorbeille">
+                                     <button type="button" class="btn btnCorbeille <?= $data['invisible'] ?>">
                                         <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>

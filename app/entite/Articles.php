@@ -30,7 +30,7 @@ class Articles {
         $this->type = $type;
     }
 
-        function getDateImport() {
+    function getDateImport() {
         return $this->dateImport;
     }
 
@@ -38,7 +38,7 @@ class Articles {
         $this->dateImport = $dateImport;
     }
 
-        function getStock() {
+    function getStock() {
         return $this->stock;
     }
 
@@ -46,8 +46,16 @@ class Articles {
         $this->stock = $stock;
     }
 
-        function getPrix() {
-        return $this->prix;
+    function getPrix() {
+        $prix = floatval($this->prix);
+        if ($prix == 0){
+            return $this->prix;
+        }else{
+            $prix = round($prix, 2);
+            $prix = str_replace(".",",", $prix);
+            return $prix;
+        }
+        
     }
 
     function setPrix($prix): void {
@@ -67,7 +75,7 @@ class Articles {
         return $this->produits;
     }
 
-    function getImages() {
+    function getImage() {
         return $this->images;
     }
 
@@ -75,7 +83,7 @@ class Articles {
         $this->produits = $produits;
     }
 
-    function setImages($images): void {
+    function setImage($images): void {
         $this->images = $images;
     }
 

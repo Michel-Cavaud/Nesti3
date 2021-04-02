@@ -23,11 +23,11 @@
                                 <input type="text" class="form-control rounded p-3" id="prenomUtilisateur" name="prenomUtilisateur" value="<?= $data['utilisateur']->prenom_utilisateurs; ?>">
                                    <div class="erreur"><?= $data['prenomUtilisateurMessage'] ?></div>
                             </div>
-                                
+                                <?=$_SESSION["utilisateur"]?>
                             <div class="form-group">
                                 <label for="roleUtilisateur">Role</label>
-                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='3'>    
-                                    
+                                <select class="custom-select" id="roleUtilisateur" multiple name="roleUtilisateur[]" size='4'>    
+                                    <option value="1" <?php if($data['utilisateur'] ){echo 'selected';} ?>>Utilisateur</option>
                                     <option value="2" <?php if($data['isAdmin']){echo 'selected';} ?>>Administrateur</option>
                                     <option value="3" <?php if($data['isModerateur']){echo 'selected';} ?>>Moderateur</option>
                                     <option value="4" <?php if($data['isChef']){echo 'selected';} ?>>Chef</option>

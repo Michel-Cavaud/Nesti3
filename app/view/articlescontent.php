@@ -91,7 +91,7 @@
                                 
                                 <button type="button" class="btn btn-link p-0 m-0" data-role="articles/edition/<?=$value->getId() ?>">Modifier</button></br>
                                 
-                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-id="<?=$value->getId() ?>">Supprimer</button>
+                                <button type="button" class="btn btn-link p-0 m-0" data-role="supprimerModal" data-lien="articles" data-id="<?=$value->getId() ?>">Supprimer</button>
                                
                                 
                             </td>

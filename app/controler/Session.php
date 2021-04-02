@@ -17,7 +17,11 @@ class Session {
         $_SESSION["chef"] =  $utilisateurModel->isChef($utilisateur);
         $_SESSION["admin"] =  $utilisateurModel->isAdmin($utilisateur);
         $_SESSION["moderateur"] =  $utilisateurModel->isModerateur($utilisateur);
-                 
+        if($_SESSION["chef"] || $_SESSION["admin"] || $_SESSION["moderateur"]){
+            $_SESSION["utilisateur"] = false;
+        }else{
+            $_SESSION["utilisateur"] = true;
+        }
         $_SESSION["idUser"] = $utilisateur->id_utilisateurs;
         $_SESSION["nomUser"] = $utilisateur->nom_utilisateurs;
         $_SESSION["prenomUser"] = $utilisateur->prenom_utilisateurs;
