@@ -62,7 +62,8 @@ if (isset($_POST['ok'])){
             elseif($_SESSION['moderateur']){
                 header('Location:' . BASE_URL . 'utilisateurs');
             }elseif($_SESSION['utilisateur']){
-                //echo $_SESSION['utilisateur'];
+                $maSession->disconnectUser();
+                header('Location:' . BASE_URL . 'login/erreur');
             }else{
                 $maSession->disconnectUser();
                 header('Location:' . BASE_URL . 'login/erreur');

@@ -12,6 +12,7 @@ class Articles {
     private $id;
     private $quantite;
     private $etat;
+    private $nomCom;
     private $dateCreation;
     private $dateMiseAJour;
     private $produits;
@@ -22,6 +23,15 @@ class Articles {
     private $dateImport;
     private $type;
     
+    function getNomCom() {
+        return $this->nomCom;
+    }
+
+    function setNomCom($nomCom): void {
+        $this->nomCom = $nomCom;
+    }
+
+        
     function getType() {
         return $this->type;
     }

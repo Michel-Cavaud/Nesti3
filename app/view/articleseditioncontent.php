@@ -14,7 +14,9 @@
                             </div>
                              <div class="form-group">
                                 <label for="nomComArticles">Nom de l'article pour l'utilisateur</label>
-                                <input type="text" class="form-control rounded pt-3" id="nomComArticles" name="nomComArticles">
+                                <input type="text" class="form-control rounded pt-3" id="nomComArticles" name="nomComArticle"
+                                        value="<?=$data['article']->getNomCom() ?>">
+                                <div class="erreur"><?= $data['nomComArticleMessage'] ?></div>
                             </div>
 
                         
@@ -45,7 +47,7 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
+                                    <button type="submit" name="ok" class="btn btn-lg pl-5 pr-5 btnValider">Valider</button>
                                     
                                 </div>
                                 
@@ -54,33 +56,91 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-5">
-                            <div class='row'>
-                                <img src="<?=$data['srcImage'] ?>" alt="Image vide" class="img-fluid">
-                            </div>
+                        </form>
+                         <div class="col-5">
+                            <img  id="preview" src="<?=$data['srcImage'] ?>" alt="Image vide" class="img-fluid">
+<form id="formImage" action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" value="<?=$data['article']->getId() ?>" name="idNew" id="idNews">
                             <div class="form-group row justify-content-between mt-4">
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control border-0" id="urlImage" name="urlImage" value="<?=  $data['urlImage'] ?>">
+                                    <div class="border-0" id="urlImage" name="urlImage" ><?=  $data['urlImage'] ?></div>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                     <button type="button" class="btn btnCorbeille <?= $data['invisible'] ?>">
+                                     <button type="button" id="btnCorbeille"  class="btn btnCorbeille <?= $data['invisible'] ?>">
                                         <img src="<?=PATH_IMAGES . 'icons/delete-svg.png'?>" alt="" class="img-fluid">
                                     </button>
                                 </div>
                             </div>
-                            <div class="form-group row justify-content-between mt-4">
-                                <div class="col-sm-8"><div class="">Télécharger une nouvelle image</div>
+                            <div class="form-group row justify-content-between">
+                               <div class="mt-3">Télecharger une nouvelle image</div>
+                                <div class="col-sm-8">
                                     <input type="file" class="form-control-file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="button" class="btn  btn-lg btnOK">OK</button>
+                                    <button type="submit" class="btn  btn-lg btnOK">OK</button>
                                 </div>
-                            </div>       
+                            </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
         </div>
      </div>
 </section>
+
+<script>
+    $(document).ready(function () {
+        $("#formImage").on('submit',(function(e) {
+            e.preventDefault();
+            if($('#image').val() != ""){
+                $.ajax({
+                    url: "<?=PATH_AJAX ?>imageArticleAjax.php",
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+
+                    success: function(data){
+                        if(data[0] == '!'){
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
+                            $("#formImage")[0].reset();
+                           
+                        }else{
+                            $('#preview').attr('src', '<?=PATH_IMAGES ?>/upload/' + data);
+                            $("#formImage")[0].reset();
+                            $("#urlImage").text(data);
+                            $("#btnCorbeille").removeClass("invisible");
+                        }
+                    }
+                });
+            }
+        }));   
+        
+         $(".btnCorbeille").on('click', (function(e){
+            e.preventDefault();
+            $.ajax({
+                    url: "<?=PATH_AJAX ?>supImageArticleAjax.php",
+                    type: "POST",
+                    data:{data : JSON.stringify({"id" : <?= $data['article']->getId() ?>})},
+                   
+
+                    success: function(data){
+                        $('#preview').attr('src', '<?=PATH_IMAGES ?>vide.png');
+                        $("#formImage")[0].reset();
+                        $("#urlImage").text('');
+                        $("#btnCorbeille").addClass("invisible");    
+
+                    }
+                });
+            
+        }));
+
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+        
+     });
+</script>
+
 

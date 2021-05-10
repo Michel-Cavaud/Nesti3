@@ -56,10 +56,8 @@ class controlerFormRecette {
 
     public function filter() {
         $reponse_filtre = filter_input_array(INPUT_POST, $this->definitions);
-        foreach(array_keys($reponse_filtre, NULL, true) as $key) { // On parcours les index dont la valeur est NULL
+        foreach(array_keys($reponse_filtre, NULL, true) as $key) { 
             if(empty($this->errors[$key]) and !empty(self::$ERREURS_ELEMVIDE[$key])) {
-                // Donc l'erreur n'a pas déjà été gérée, c'est un élément absent du formulaire de départ
-                // Et pourtant considéré obligatoire.
                 $this->errors[$key] = self::$ERREURS_ELEMVIDE[$key];
             }
         }
@@ -71,9 +69,8 @@ class controlerFormRecette {
     }
 
     private function filter_int($input) {
-            $reponse_filtre = filter_var($input, FILTER_SANITIZE_NUMBER_INT, array("options"=>array("min_range"=>1)));
-        
-            return (empty($reponse_filtre))?null:$reponse_filtre;
+        $reponse_filtre = filter_var($input, FILTER_SANITIZE_NUMBER_INT, array("options"=>array("min_range"=>1)));
+        return (empty($reponse_filtre))?null:$reponse_filtre;
        
         
     }

@@ -101,6 +101,7 @@ class ArticleModel {
             $article->setQuantite($data['quantite_unite_articles']);
             $article->setProduits($produit);
             $article->setUniteMesure($unite);
+            $article->setNomCom($data['nom_usage_articles']);
 
             $prixArticle = $prixArticleModel->readOne($data['id_externe']);
             if ($prixArticle) {
@@ -137,6 +138,32 @@ class ArticleModel {
         $sql = 'UPDATE `articles` SET `etat_articles` = "b" WHERE `articles`.`id_externe` = :id';
         $sth = $pdo->prepare($sql);
         $sth->execute(array('id' => $id));
+    }
+      
+    public function update($article){
+        $pdo = Database::getPdo();
+        
+        $sql = 'UPDATE `articles` SET  `nom_usage_articles` = :nom '
+            . ' WHERE `id_externe` = :id';
+       
+        $sth = $pdo->prepare($sql);
+        $sth->execute(array('id' => $article->getId(), 'nom' => $article->getNomCom()));
+    }
+    
+    public function supImage($id){
+        
+        $sql = "UPDATE `articles` SET `id_images` = NULL WHERE `articles`.`id_externe` = :id;";
+   
+        $pdo = Database::getPdo();
+         try {
+            $pdo->beginTransaction();
+            $sth = $pdo->prepare($sql);
+            $sth->execute(array('id' => $id));
+            $pdo->commit();
+         
+        } catch(PDOException $e) {
+            $pdo->rollback();
+        }
     }
 
 }

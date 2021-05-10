@@ -1,6 +1,31 @@
 <?php
 
 $modelArticle = new ArticleModel();
+//$data['article'] = new Articles();
+ $data['nomComArticleMessage'] = '';
+
+ if( $_SESSION['admin']){
+    if (isset($_POST['ok'])){
+       extract($_POST);
+
+       $filtre = new controlerFormArticle();
+       $filtre->filter();
+       $data['article'] = new Articles();
+       $data['article']->setNomCom($nomComArticle);
+       $data['article']->setId($identifiant);
+
+       if($filtre->hasErrors()) {  
+           $listeErreurs = $filtre->errors; 
+           if(isset($listeErreurs['nomComArticle'])){
+               $data['nomComArticleMessage'] = $listeErreurs['nomComArticle'];   
+           }  
+       }else{
+           $modelArticle->update($data['article']);
+       } 
+   }
+   }else{
+     header('Location:' . BASE_URL . 'acces/interdit');  
+}
 
 if($action == ""){
     $data = listArticles($data, $modelArticle);   
@@ -19,6 +44,8 @@ if($action == ""){
     }   
 }
 $data['btnNavActifArticles'] = "btnnavActif";
+  
+
 
 function importer($data, $modelArticle){
      $data['chemin'] = "Articles";
@@ -34,7 +61,7 @@ function listArticles($data, $modelArticle){
     $data['chemin2'] = "";
     
     $data['article'] = $modelArticle->readAll();
-  
+  //var_dump($data['article']);
     return $data;
 }
 
@@ -44,7 +71,7 @@ function edition($data, $modelArticle, $id){
     $data['chemin2'] = "> Article";
     
     $data['article'] = $modelArticle->readOne($id);
-    
+    //var_dump($data['article']);
     if($data['article']->getImage()->getId() != null){
         $modelImage = new ImageModel();
        $data['article'] = $modelImage->readOne($data['article']);

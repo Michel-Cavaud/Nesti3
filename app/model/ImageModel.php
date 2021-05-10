@@ -29,6 +29,29 @@ class ImageModel{
             $pdo->rollback();
         }
     }
+    public function insertImageArticle($image, $idArticle){
+        
+        $pdo = Database::getPdo();
+
+        $sql = "INSERT INTO `images` (`nom_images`, `extension_images`) "
+                . "VALUES (:nom, :ext);";
+        $sql2 = "UPDATE `articles` SET `id_images` = :idImage WHERE `articles`.`id_externe` = :idArticle;";
+
+        try {
+            $pdo->beginTransaction();
+            $sth = $pdo->prepare($sql);
+            $sth->execute(array('nom' => $image->getNom(), 'ext' => $image->getExtension()));
+            //$sth->debugDumpParams();
+            $id = $pdo->lastInsertId();
+            
+            $sth = $pdo->prepare($sql2);
+            $sth->execute(array('idImage' => $id, 'idArticle' => $idArticle));
+            $pdo->commit();
+         
+        } catch(PDOException $e) {
+            $pdo->rollback();
+        }
+    }
     
      public function readOne($recette){
         
